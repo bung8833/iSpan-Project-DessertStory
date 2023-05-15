@@ -1,0 +1,113 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.ViewModels.Shopping.MemberRegisterVM
+@{
+    ViewData["Title"] = "註冊";
+    Layout = "~/Views/Shared/_MemberRegisterLayout.cshtml";
+}
+
+
+<!-- Content -->
+
+<div class="container-xxl">
+    <!-- Register Card -->
+    <div class="card">
+        <div class="card-body px-5">
+            <!-- Logo -->
+            <div class="app-brand mb-4 mt-3 ms-0 justify-content-center">
+                <a href="@Url.Action("Index", "Home")" class="app-brand-link gap-3 ms-3">
+                    <span class="app-brand-logo demo">
+                        <img class="mb-2 me-2 bg-transparent" src="~/images/StoreLogo.png" width="58" />
+                    </span>
+                    <span class="app-brand-text demo text-body fw-bolder text-primary" style="font-size: 2.8em; /*font-family: 'JetBrains Mono'*/">
+                        甜點<span class="text-secondary">物語</span>
+                    </span>
+                </a>
+            </div>
+            <!-- /Logo -->
+            <h3 class="mb-5 mt-0 fw-bold text-center">會員註冊</h3>
+            <b style="font-size: 1.1em">🍰請填寫以下會員資料，以下欄位均為必填</b>
+
+            <br />
+            <br />
+
+            <form id="formAuthentication" class="mb-3" asp-action="Register" asp-controller="User" method="POST" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger fw-bold"></div>
+                <div class="mb-3 row">
+                    <div class="col-6">
+                        <label for="lastname" class="fw-bold">姓氏</label>
+                        <input asp-for="lastname" type="text" class="form-control" name="lastname" autocomplete="off" autofocus />
+                        <span asp-validation-for="lastname" class="text-danger fw-bold"></span>
+                    </div>
+                    <div class="col-6">
+                        <label for="firstname" class="fw-bold">名字</label>
+                        <input asp-for="firstname" type="text" class="form-control" name="firstname" autocomplete="off" />
+                        <span asp-validation-for="firstname" class="text-danger fw-bold"></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="account" class="fw-bold">帳號</label>
+                    <input asp-for="account" type="text" class="form-control" name="account" autocomplete="off" />
+                    <span asp-validation-for="account" class="text-danger fw-bold"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="fw-bold">Email</label>
+                    <input asp-for="email" type="text" class="form-control" name="email" autocomplete="off" />
+                    <span asp-validation-for="email" class="text-danger fw-bold"></span>
+                </div>
+                <div class="mb-3 form-password-toggle">
+                    <label class="fw-bold" for="password">設定密碼</label>
+                    <div class="input-group input-group-merge">
+                        <input asp-for="password" type="password" class="form-control" name="password" aria-describedby="password" />
+                        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                    </div>
+                        <span asp-validation-for="password" class="text-danger fw-bold"></span>
+                </div>
+                <div class="mb-3 form-password-toggle">
+                    <label class="fw-bold" for="confirmPassword">密碼確認</label>
+                    <div class="input-group input-group-merge">
+                        <input asp-for="confirmPassword" type="password" class="form-control" name="confirmPassword" aria-describedby="password" />
+                        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                    </div>
+                        <span asp-validation-for="confirmPassword" class="text-danger fw-bold"></span>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-7">
+                        @*生日*@
+                        <div class="mb-3">
+                            <label class="fw-bold" for="birthdate">生日</label><br />
+                            <input asp-for="birthdate" class="form-control" type="date" name="birthdate" />
+                            <span asp-validation-for="birthdate" class="text-danger fw-bold"></span>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        @*性別*@
+                        <div class="mb-3">
+                            <label class="fw-bold" for="gender">性別</label><br />
+                            <select asp-for="gender" class="form-select" name="gender">
+                                <option class="" value="" selected disabled hidden>請選擇</option>
+                                <option class="fw-bold" value="Male">男</option>
+                                <option class="fw-bold" value="Female">女</option>
+                                <option class="fw-bold" value="Others">其他</option>
+                            </select>
+                            <span asp-validation-for="gender" class="text-danger fw-bold"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                @*submit*@
+                <input type="submit" class="btn btn-primary mt-3 d-grid w-100" value="註冊" />
+            </form>
+
+            <p class="text-center">
+                <span>已經有帳號了嗎？</span>
+                <a href="@Url.Action("MemberLogin")" class="text-primary">
+                    <span>去登入</span>
+                </a>
+            </p>
+        </div>
+    </div>
+    <!-- Register Card -->
+</div>
+
+<!-- / Content -->

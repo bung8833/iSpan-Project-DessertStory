@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ISpan.Project_02_DessertStory.Customer.ViewModels.Sellers.SellerOrderDetailViewModel>
+
+@{
+    ViewData["Title"] = "OrderDetailList";
+}
+
+<h1>訂單明細</h1>
+
+<hr class="my-3" />
+
+<p>
+    <a asp-action="List" ,new class="btn btn-primary">回上一頁</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                No.
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubTotal)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+            foreach (var item in Model)
+            {
+                count++;
+                @Html.HiddenFor(modelItem => item.OrderId)
+                @Html.HiddenFor(modelItem => item.OrderDetailId)
+                @Html.HiddenFor(modelItem => item.ProductId)
+                <tr>
+                    <td>
+                        @count
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubTotal)
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+

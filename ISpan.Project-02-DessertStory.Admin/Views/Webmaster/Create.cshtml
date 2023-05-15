@@ -1,0 +1,64 @@
+﻿@model ISpan.Project_02_DessertStory.Admin.Models.EF.Advertise
+
+@{
+    ViewData["Title"] = "Create";
+}
+<script src="https://cdn.tiny.cloud/1/r9nc8z67gpirtmpnlk7nz92s7v83dtiv7mz9rr8l0e2hyk6k/tinymce/6/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: "#Tcontent",
+        toolbar:
+    "undo redo spellcheckdialog  | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | align lineheight checklist bullist numlist | indent outdent | removeformat typography",
+        font_size_formats: '8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 48pt',
+        width: 1200,
+        resize: false,
+        newline_behavior: 'linebreak'//換行不要用p
+    });
+</script>
+
+<h1 style="color:white">前台廣告編輯</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div hidden class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tcontent" class="control-label"></label>
+                <textarea asp-for="Tcontent" class="form-control" style="resize:none"></textarea>
+                <span asp-validation-for="Tcontent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tstarttime" class="control-label"></label>
+                <input asp-for="Tstarttime" class="form-control" />
+                <span asp-validation-for="Tstarttime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tendtime" class="control-label"></label>
+                <input asp-for="Tendtime" class="form-control" />
+                <span asp-validation-for="Tendtime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <label style="color:red" id="errstr">@ViewBag.err</label>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    //function clearerrstr(){
+    //    document.getElementById('errstr').innerHTML = "";
+    //}
+
+    //setTimeout(clearerrstr,10000);
+</script>

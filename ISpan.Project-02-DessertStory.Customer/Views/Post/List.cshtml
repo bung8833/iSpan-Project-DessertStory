@@ -1,0 +1,59 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<ISpan.Project_02_DessertStory.Customer.Models.EF.Post>
+@{
+    ViewData["Title"] = "List";
+}
+<link rel="stylesheet" href="~/css/Post.css" asp-append-version="true" />
+<div style="display:flex; justify-content:space-between; align-items:center;">
+    <div style="margin-left:50px">
+        <p>
+            @using (Html.BeginForm())
+            {
+                @:文章查詢 @Html.TextBox("txtKeyword")<input type="submit" value="查詢" />
+            }
+        </p>
+    </div>
+    <div style="float:right">
+        <h4>
+            <a asp-action="Chat">甜點物語聊天室</a>
+        </h4>
+    </div>
+</div>
+<div style="margin-left:50px">
+<table class="table">
+    <thead>
+        <tr>
+            <th>標題</th>
+                <th >內容</th>
+            <th>發布時間</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var post in Model)
+        {
+            <tr>
+                    <td>
+                        <div class ="truncate">
+                            @post.Title
+                        </div>
+                </td>
+                    <td >
+                        <div class="truncate">
+                            @Html.Raw(post.TContent.Replace("<p>", "<span>").Replace("</p>", "</span>"))
+
+                        </div>
+                </td> <!-- 使用 Html.Raw 渲染带有 <br> 标签的文本 -->
+                <td>@post.CreatedAt</td>
+                <td><a href="@Url.Action("Detail","Post",new {id=post.PostId})">檢視內容</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    
+<div>
+        @Html.PagedListPager(Model,page => Url.Action("List",new { page,txtKeyword=ViewBag.search }))
+</div>
+<a asp-action="Create" class="btn btn-primary">發布新文章</a>
+</div>
+

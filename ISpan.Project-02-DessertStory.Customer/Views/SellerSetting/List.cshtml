@@ -1,0 +1,61 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.Models.EF.Seller
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>帳戶</h1>
+<h6 class="--bs-dark-text-emphasis">更新您的基本帳戶資訊</h6>
+<hr class="my-3"/>
+
+<form asp-action="Edit">
+    <input type="hidden" name="Id" value="@Model.Id" />
+        <div class="mb-3 col-md-6">
+            <label class="form-label-lg" for="account" >帳號</label>
+            <div class="input-group input-group-merge">
+                
+                <input type="text"
+                   id="Account"
+                   name="Account"
+                   class="form-control" 
+                   value="@Model.Account" readonly />
+            </div>
+        </div>
+@*        <div class="mb-3 col-md-6">
+            <label class="form-label-lg" for="account">密碼</label>
+            <div class="input-group input-group-merge">
+                <input type="password"
+                   id="Password"
+                   name="Password"
+                   class="form-control"
+                   value="@Model.Password" readonly />
+            </div>
+        </div>*@
+
+        <div class="mb-3 col-md-6">
+            <label class="form-label-lg" for="phoneNumber">聯絡電話</label>
+            <div class="input-group input-group-merge">
+                <span class="input-group-text">TW (+886)</span>
+                <input type="text"
+                   id="phoneNumber"
+                   name="ContactNumber"
+                   class="form-control"
+                   value="@Model.ContactNumber" readonly />
+            </div>
+        </div>
+
+        <div class="mb-3 col-md-6">
+            <label for="email" class="form-label-lg">E-mail</label>
+            <input class="form-control"
+               type="text"
+               id="email"
+               name="email"
+               value="@Model.Email" readonly
+               @*placeholder="john.doe@example.com"*@  />
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary me-2">修改資料</button>
+        </div>
+
+    </form>

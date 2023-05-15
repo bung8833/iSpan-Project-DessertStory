@@ -1,0 +1,127 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model IEnumerable<ISpan.Project_02_DessertStory.Admin.Models.EF.Product>
+
+@{
+    ViewData["Title"] = "List";
+}
+<h1 style="color:white">商品表單</h1>
+<p>
+    @using (Html.BeginForm())
+    {
+        <label style="color:white">關鍵字:</label> @Html.TextBox("txtKeyword") <input type="submit" value="查詢" />
+    }
+</p>
+<table class="table" style="width:auto;table-layout:fixed;">
+    <thead>
+        <tr>
+            <th>
+                商品類別
+            </th>
+            <th>
+                賣家姓名
+            </th>
+            <th>
+                商品名稱
+            </th>            
+            <th>
+                尺寸
+            </th>
+            <th>
+                產品庫存
+            </th>
+            <th>
+                單價
+            </th>
+            <th>
+                售出數量
+            </th>
+            <th>
+                最後修改日期
+            </th>
+            <th>
+                停權狀態
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
+                    @item.Seller.FirstName @item.Seller.LastName
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitsInStock)
+                </td>
+                <td>
+                    @item.UnitPrice.ToString("N0")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitsOnOrder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModified)
+                </td>
+                <td><input type="checkbox" id="@item.Id" onclick="CheckBoxChange(this)" @((bool)item.ProductStatus ? "checked" : "")></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div  style="background-color:white">
+    @Html.PagedListPager((IPagedList)Model, p => Url.Action("List", new { page = p,txtKeyword = ViewBag.seachstring}))
+</div>
+<script>
+    function CheckBoxChange(element) {
+        (element.checked == true) ? SuspendAccount(element) : UnsuspendAccount(element);
+    }
+
+    function SuspendAccount(element) {
+        var stopAcc = prompt("請輸入BLOCK以確認停權:");
+        let recordId = element.getAttribute('id');
+        let newStatus = element.checked;
+
+        if (stopAcc && stopAcc.toUpperCase() === "BLOCK") {
+            updateSellerStatus(recordId, newStatus);
+        } else {
+            alert("未輸入BLOCK，取消刪除操作");
+            element.checked = !element.checked;
+        }
+    }
+
+    function UnsuspendAccount(element) {
+        var unStopAcc = prompt("請輸入UNBLOCK以確認停權:");
+        let recordId = element.getAttribute('id');
+        let newStatus = element.checked;
+
+        if (unStopAcc && unStopAcc.toUpperCase() === "UNBLOCK") {
+            updateSellerStatus(recordId, newStatus);
+        } else {
+            alert("未輸入UNBLOCK，取消刪除操作");
+            element.checked = !element.checked;
+        }
+    }
+
+    function updateSellerStatus(recordId, newStatus) {
+        $.ajax({
+            url: `/Product/Productsus?id=${recordId}&status=${newStatus}`,
+            type: "GET",
+            success: function (response) {
+                console.log("Seller status updated successfully.");
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log("Error updating seller status:", textStatus, errorThrown);
+            }
+        });
+    }
+</script>

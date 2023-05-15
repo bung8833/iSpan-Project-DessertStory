@@ -1,0 +1,87 @@
+﻿@model IEnumerable<ISpan.Project_02_DessertStory.Customer.ViewModels.Shopping.MemberOrderVM>
+@{
+    ViewData["Title"] = "會員訂單";
+    Layout = "~/Views/Shared/_MemberCenterLayout.cshtml";
+}
+
+@section Styles{
+    <style>
+        .btn {
+            border-radius: 5px;
+        }
+
+        .btn:focus, .btn:active, .btn:active:focus, .btn.active:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            color: #D69F3A;
+            background-color: #D69F3A;
+        }
+
+        .btn-secondary, .btn-secondary:focus, .btn-secondary:active, .btn-secondary:active:focus, .btn-secondary.active:focus {
+            outline: none;
+            box-shadow: none;
+            color: #D69F3A;
+            background-color: #D69F3A;
+        }
+    </style>
+}
+
+@{
+    if (Model.Count() == 0)
+    {
+        <h4>您目前沒有訂單紀錄</h4><br />
+        <b>我們的網站有各式各樣的美味甜點，歡迎參觀選購！</b><br />
+
+        @Html.ActionLink("馬上去看看", "Index", "Products", null, new { @class="btn btn-secondary mt-4" })
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>訂單編號</th>
+                    <th>店家</th>
+                    <th>訂單金額</th>
+                    <th>配送狀態</th>
+                    <th>訂單日期</th>
+                    <th>運費</th>
+                    <th>付款方式</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StoreName)
+                        </td>
+                        <td>
+                            <span>$</span>@Html.DisplayFor(modelItem => item.TotalPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDate)
+                        </td>
+                        <td>
+                            <span>$</span>@Html.DisplayFor(modelItem => item.ShippingFee)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentMethod)
+                        </td>
+                        <td>
+                            @Html.ActionLink("明細", "Details", new {  orderId=item.OrderId  }, new { @class="btn btn-light py-1" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}

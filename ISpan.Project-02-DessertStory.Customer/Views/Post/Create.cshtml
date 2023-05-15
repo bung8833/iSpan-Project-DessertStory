@@ -1,0 +1,65 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.Models.EF.Post
+
+@{
+    ViewData["Title"] = "Create";
+}
+@*<script src="~/SellerLayout/assets/js/config.js"></script>
+<script type="text/javascript"
+        src='https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js'
+        referrerpolicy="origin">
+</script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: '#TContent',
+        width: 1200,
+        height: 500,
+        force_br_newlines: true,
+        force_p_newlines: false,
+        plugins: [
+            'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+            'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+            'media', 'table', 'emoticons', 'template', 'help'
+        ],
+        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+            'forecolor backcolor emoticons | help',
+        menu: {
+            favs: { title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons' }
+        }
+    });
+</script>*@
+<script src="https://cdn.tiny.cloud/1/r9nc8z67gpirtmpnlk7nz92s7v83dtiv7mz9rr8l0e2hyk6k/tinymce/6/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: "#TContent",
+        resize:false,
+        newline_behavior: 'linebreak'//換行不要用p
+    });
+</script>
+<link rel="stylesheet" href="~/css/Post.css" asp-append-version="true" />
+<h1>發布新文章</h1>
+
+<form asp-action="Create">
+    <input asp-for="UserId" class="form-control" value="@ViewBag.ID" type="hidden" />
+    <span asp-validation-for="UserId" class="text-danger"></span>
+    <div class="form-group">
+        <label asp-for="Title" class="control-label">標題</label>
+        <input asp-for="Title" class="form-control"/>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TContent" class="control-label">內容</label>
+        <textarea asp-for="TContent" class="form-control" ></textarea>
+        <span asp-validation-for="TContent" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="發布" class="btn btn-primary" />
+    </div>
+</form>
+<div>
+    <a asp-action="List">回到留言板</a>
+</div>
+
+
+
+

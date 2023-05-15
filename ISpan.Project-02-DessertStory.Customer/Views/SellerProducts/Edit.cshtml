@@ -1,0 +1,279 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.ViewModels.Sellers.SellerProductsViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>編輯商品資訊</h1>
+
+<h6 class="--bs-dark-text-emphasis">更新您的商品資訊</h6>
+
+<hr class="my-3" />
+
+
+<form asp-action="EditSellerProducts" id="FormStoreEdit" enctype="multipart/form-data">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="SellerId" value="@Model.SellerId" />
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">商品名稱</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="ProductName"
+                   name="ProductName"
+                   class="form-control"
+                   value="@Model.ProductName" />
+        </div>
+    </div>
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">類別</label>
+        <div class="input-group input-group-merge">
+            <select id="CategoryId" name="CategoryId" class="form-control">
+                @foreach (var category in @Model.Category)
+                {
+                    <option value="@category.Id" selected=@(category.Name == @Model.CategoryName)>@category.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="ProductPucture">圖片</label>
+        <div class="card-body">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                @{
+                    string photoname = string.Empty;
+                    if (!String.IsNullOrEmpty(Model.Picture1))
+                    {
+                        photoname = @Model.Picture1;
+                    }
+                    else
+                    {
+                        photoname = "defaultproduct.jpg";
+                    }
+                }
+                <img src="~/images/products/@photoname" width="180" height="auto"
+                     alt="person-icon"
+                     class="d-block rounded"
+                     id="uploadedAvatar1" />
+
+                <div class="mb-3 input-group">
+                    <input type="file" class="form-control" id="inputGroupFile1" name="photo1" />
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                @{
+                    string photoname2 = string.Empty;
+                    if (!String.IsNullOrEmpty(Model.Picture2))
+                    {
+                        photoname2 = @Model.Picture2;
+                    }
+                    else
+                    {
+                        photoname2 = "defaultproduct.jpg";
+                    }
+                }
+                <img src="~/images/products/@photoname2" width="180" height="auto"
+                     alt="person-icon"
+                     class="d-block rounded"
+                     id="uploadedAvatar2" />
+
+                <div class="mb-3 input-group">
+                    <input type="file" class="form-control" id="inputGroupFile2" name="photo2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                @{
+                    string photoname3 = string.Empty;
+                    if (!String.IsNullOrEmpty(Model.Picture3))
+                    {
+                        photoname3 = @Model.Picture3;
+                    }
+                    else
+                    {
+                        photoname3 = "defaultproduct.jpg";
+                    }
+                }
+                <img src="~/images/products/@photoname3" width="180" height="auto"
+                     alt="person-icon"
+                     class="d-block rounded"
+                     id="uploadedAvatar3" />
+
+                <div class="mb-3 input-group">
+                    <input type="file" class="form-control" id="inputGroupFile3" name="photo3" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="mb-3 col-md-8">
+        <label class="form-label-lg" for="Description">商品描述</label>
+        <div class="input-group input-group-merge">
+            <textarea type="text"
+                      id="myTextarea"
+                      name="Description"
+                      class="form-control"
+                      maxlength="500"
+                      rows="10"
+                      cols="30">@Model.Description</textarea>
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">尺寸</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="ProductSize"
+                   name="ProductSize"
+                   class="form-control"
+                   value="@Model.ProductSize" />
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">價格</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="UnitPrice"
+                   name="UnitPrice"
+                   class="form-control"
+                   value="@Model.UnitPrice" />
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">庫存</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="UnitsInStock"
+                   name="UnitsInStock"
+                   class="form-control"
+                   value="@Model.UnitsInStock" />
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">商品狀態</label>
+        <div class="input-group input-group-merge">
+            @*            <input type="text"
+            id="ProductStatus"
+            name="ProductStatus"
+            class="form-control"
+            value="@Model.ProductStatus" />*@
+            @if (Model.ProductStatus == true)
+            {
+                <label>@Html.RadioButtonFor(x => x.ProductStatus, true,true) 上架</label>
+                <label>@Html.RadioButtonFor(x => x.ProductStatus, false) 下架</label>
+            }
+            else
+            {
+                <label class="me-2">@Html.RadioButtonFor(x => x.ProductStatus, true) 上架</label>
+                <label>@Html.RadioButtonFor(x => x.ProductStatus, false, true) 下架</label>
+            }
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button id="saveBtn" type="submit" class="btn btn-primary me-2">更新</button>
+        <button id="cancelBtn" type="reset" class="btn btn-outline-secondary">取消</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+
+        //預覽上傳照片(時機：選檔變更事件)
+        $("#inputGroupFile1").change(function () {
+            $("#uploadedAvatar1").attr({ src: '' }); //先清除舊圖
+            previewImg1(this.files); //再預覽新圖
+        });
+        function previewImg1(files) {
+            if (files.length == 0)
+                return;
+            var file = files[0];
+            var fr = new FileReader();
+            //註冊：選檔被讀取完成後之事件處理器
+            fr.onload =
+                function () {
+                    $("#uploadedAvatar1").attr({ src: fr.result });
+                    /*  fr.result: The file's contents. 內容如下:
+                    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA ...
+                    */
+                };
+            fr.readAsDataURL(file);
+        }
+
+        //預覽上傳照片(時機：選檔變更事件)
+        $("#inputGroupFile2").change(function () {
+            $("#uploadedAvatar2").attr({ src: '' }); //先清除舊圖
+            previewImg2(this.files); //再預覽新圖
+        });
+        function previewImg2(files) {
+            if (files.length == 0)
+                return;
+            var file = files[0];
+            var fr = new FileReader();
+            //註冊：選檔被讀取完成後之事件處理器
+            fr.onload =
+                function () {
+                    $("#uploadedAvatar2").attr({ src: fr.result });
+                    /*  fr.result: The file's contents. 內容如下:
+                    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA ...
+                    */
+                };
+            fr.readAsDataURL(file);
+        }
+
+        //預覽上傳照片(時機：選檔變更事件)
+        $("#inputGroupFile3").change(function () {
+            $("#uploadedAvatar3").attr({ src: '' }); //先清除舊圖
+            previewImg3(this.files); //再預覽新圖
+        });
+        function previewImg3(files) {
+            if (files.length == 0)
+                return;
+            var file = files[0];
+            var fr = new FileReader();
+            //註冊：選檔被讀取完成後之事件處理器
+            fr.onload =
+                function () {
+                    $("#uploadedAvatar3").attr({ src: fr.result });
+                };
+            fr.readAsDataURL(file);
+        }
+        $(document).ready(function () {
+            $("#cancelBtn").click(function (e) {
+                e.preventDefault();
+                //跳出確認視窗
+                Swal.fire({
+                    title: '確定要取消嗎?',
+                    showCancelButton: true,
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消',
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        Swal.fire('已取消', '', 'info').then((result) => {
+                            //跳轉到指定Action
+                            window.setTimeout(function () {
+                                window.location.href = '@Url.Action("List", "SellerProducts", new { Id = @Model.SellerId })';
+                            }, 1000);
+                        })
+                    }
+                })
+            })
+        })
+
+    </script>
+
+    }

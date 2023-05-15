@@ -1,0 +1,58 @@
+﻿@using ISpan.Project_02_DessertStory.Customer.Models.EF;
+@using ISpan.Project_02_DessertStory.Customer.Models.Services;
+@using System.Text.Json;
+@model ISpan.Project_02_DessertStory.Customer.ViewModels.Sellers.SellerRegisterViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<style>
+    .btn-outline-custom {
+        color: #ced4da;
+        border-color: #ced4da;
+    }
+
+        .btn-outline-custom:hover {
+            background-color: #ced4da;
+            color: #fff;
+        }
+</style>
+<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">賣家註冊</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-body" href="#">首頁</a></li>
+                @*<li class="breadcrumb-item"><a class="text-body" href="#">Pages</a></li>*@
+                <li class="breadcrumb-item" aria-current="page">賣家</li>
+                <li class="breadcrumb-item text-dark active" aria-current="page">賣家註冊</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>
+                <i class="fas fa-user-check"></i>
+                <span class="text-dark">賣家註冊成功，請收驗證信。</span>
+            </h4>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                window.location.href = '/SellerHome/Login';
+            }, 5000); 
+        });
+
+    </script>
+}
+
+

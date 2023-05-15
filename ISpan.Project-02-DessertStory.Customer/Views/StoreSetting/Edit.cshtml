@@ -1,0 +1,143 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.ViewModels.Sellers.StoreSettingViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>賣場資訊</h1>
+<h6 class="--bs-dark-text-emphasis">更新您的賣場資訊</h6>
+
+<hr class="my-3" />
+
+<form asp-action="EditStoreInformation" id="FormStoreEdit" enctype="multipart/form-data">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">賣場名稱</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="StoreName"
+                   name="StoreName"
+                   class="form-control"
+                   value="@Model.StoreName" />
+        </div>
+    </div>
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="ShopLogo">Shop Logo</label>
+        <div class="card-body">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                @{
+                    string photoname = string.Empty;
+                    if (!String.IsNullOrEmpty(Model.Picture))
+                    {
+                        photoname = @Model.Picture;
+                    }
+                    else
+                    {
+                        photoname = "defaultpersonicon.jpg";
+                    }
+                }
+                <img src="~/images/@photoname" width="150" height="130"
+                     alt="person-icon"
+                     class="d-block rounded"
+                     height="100"
+                     width="100"
+                     id="uploadedAvatar" />
+
+                <div class="mb-3 input-group">
+                    <input type="file" class="form-control" id="inputGroupFile" name="photo" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-8">
+        <label class="form-label-lg" for="Description">賣場介紹</label>
+        <div class="input-group input-group-merge">
+            <textarea type="text"
+                      @*id="Description"*@
+                      id="myTextarea"
+                      name="Description"
+                      class="form-control"
+                      maxlength="500"
+                      rows="10"
+                      cols="30">@Model.Description</textarea>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button id="saveBtn" type="submit" class="btn btn-primary me-2">儲存</button>
+        <button id="cancelBtn" type="reset" class="btn btn-outline-secondary">取消</button>
+    </div>
+</form>
+
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        //預覽上傳照片(時機：選檔變更事件)
+        $("#inputGroupFile").change(function () {
+            $("#uploadedAvatar").attr({ src: '' }); //先清除舊圖
+            previewImg(this.files); //再預覽新圖
+        });
+        function previewImg(files) {
+            if (files.length == 0)
+                return;
+            var file = files[0];
+            var fr = new FileReader();
+            //註冊：選檔被讀取完成後之事件處理器
+            fr.onload =
+                function () {
+                    $("#uploadedAvatar").attr({ src: fr.result });
+                };
+            fr.readAsDataURL(file);
+        }
+
+        $(document).ready(function () {
+            $("#saveBtn").click(function (e) {
+                e.preventDefault();
+                //跳出確認視窗
+                Swal.fire({
+                    title: '確定要儲存嗎?',
+                    showCancelButton: true,
+                    confirmButtonText: '儲存',
+                    cancelButtonText: '取消',
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        //提交
+                        Swal.fire('儲存成功!', '', 'success').then((result) => { $("#FormStoreEdit").submit(); })
+                    }
+                })
+            })
+        })
+
+        $(document).ready(function () {
+            $("#cancelBtn").click(function (e) {
+                e.preventDefault();
+                //跳出確認視窗
+                Swal.fire({
+                    title: '確定要取消嗎?',
+                    showCancelButton: true,
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消',
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        Swal.fire('已取消', '', 'info').then((result)=>{
+                            //跳轉到指定Action
+                            window.setTimeout(function () {
+                                window.location.href = '@Url.Action("List", "StoreSetting", new { Id = @Model.Id })';
+                            }, 1000);
+                        })
+                    }
+                })
+            })
+        })
+
+    </script>
+ }

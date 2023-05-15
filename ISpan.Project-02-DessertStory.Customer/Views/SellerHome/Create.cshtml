@@ -1,0 +1,250 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.ViewModels.Sellers.SellerRegisterViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .btn-outline-custom {
+        color: #ced4da;
+        border-color: #ced4da;
+    }
+
+        .btn-outline-custom:hover {
+            background-color: #ced4da;
+            color: #fff;
+        }
+        .accountMsg{
+            color:red;
+        }
+</style>
+<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">賣家註冊</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-body" href="#">首頁</a></li>
+                <li class="breadcrumb-item" aria-current="page">賣家</li>
+                <li class="breadcrumb-item text-dark active" aria-current="page">賣家註冊</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="SellerRegisterCreate" enctype="multipart/form-data">
+                <h4>填寫基本個人資料</h4>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Account" class="control-label"></label>
+                    <input asp-for="Account" class="form-control" id="SellerAccount" /><span id="accountMsg" class="text-danger"></span>
+                    <span asp-validation-for="Account" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <div class="input-group">
+                        <input asp-for="Password" autocomplete="off" class="form-control" type="password" id="passwordInput" />
+                        <button class="btn btn-outline-custom" type="button" id="togglePasswordBtn">
+                            <i class="bi bi-eye-slash" id="passwordToggleIcon"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PasswordConfirm" class="control-label"></label>
+                    <div class="input-group">
+                        <input asp-for="PasswordConfirm" autocomplete="off" class="form-control" type="password" id="passwordConfirmInput" />
+                        <button class="btn btn-outline-custom" type="button" id="togglePasswordConfirmBtn">
+                            <i class="bi bi-eye-slash" id="passwordConfirmToggleIcon"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdentityNumber" class="control-label"></label>
+                    <input asp-for="IdentityNumber" class="form-control" />
+                    <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group me-4">
+                        <label asp-for="LastName" class="control-label "></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ContactNumber" class="control-label"></label>
+                    <input asp-for="ContactNumber" class="form-control" />
+                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BirthDate" class="control-label"></label>
+                    <input asp-for="BirthDate" type="date" value="1980-01-01" class="form-control" />
+                    <span asp-validation-for="BirthDate" class="text-danger"></span>
+                </div>
+                <p></p>
+                <p></p>
+                <h4>填寫店家基本資料</h4>
+                <hr />
+                <div class="form-group">
+                    <label asp-for="StoreName" class="control-label"></label>
+                    <input asp-for="StoreName" class="form-control" />
+                    <span asp-validation-for="StoreName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" id="myTextarea"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Picture" class="control-label"></label>
+                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+
+                        <img src="~/images/defaultpersonicon.jpg" width="150" height="130"
+                             alt="person-icon"
+                             class="d-block rounded"
+                             height="100"
+                             width="100"
+                             id="uploadedAvatar" />
+
+                        <div class="mb-3 input-group">
+                            <input type="file" class="form-control" id="inputGroupFile" name="photo" />
+                        </div>
+                    </div>
+                </div>
+
+                <p></p>
+                <div class="form-group mt-4">
+                    <input type="submit" value="新增" class="btn btn-primary me-2" id="saveBtn" />
+                    <a asp-action="Login" class="btn btn-secondary me-2" id="cancelBtn">取消</a>
+                    <button type="button" class="btn btn-outline-dark" id="fillDemoDataBtn">Demo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        const passwordInput = document.getElementById('passwordInput');
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        const passwordToggleIcon = document.getElementById('passwordToggleIcon');
+
+        togglePasswordBtn.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordToggleIcon.classList.remove('bi-eye-slash');
+                passwordToggleIcon.classList.add('bi-eye');
+            } else {
+                passwordInput.type = 'password';
+                passwordToggleIcon.classList.remove('bi-eye');
+                passwordToggleIcon.classList.add('bi-eye-slash');
+            }
+        });
+
+        const passwordConfirmInput = document.getElementById('passwordConfirmInput');
+        const togglePasswordConfirmBtn = document.getElementById('togglePasswordConfirmBtn');
+        const passwordConfirmToggleIcon = document.getElementById('passwordConfirmToggleIcon');
+
+        togglePasswordConfirmBtn.addEventListener('click', function () {
+            if (passwordConfirmInput.type === 'password') {
+                passwordConfirmInput.type = 'text';
+                passwordConfirmToggleIcon.classList.remove('bi-eye-slash');
+                passwordConfirmToggleIcon.classList.add('bi-eye');
+            } else {
+                passwordConfirmInput.type = 'password';
+                passwordConfirmToggleIcon.classList.remove('bi-eye');
+                passwordConfirmToggleIcon.classList.add('bi-eye-slash');
+            }
+        });
+
+
+
+        //預覽上傳照片(時機：選檔變更事件)
+        $("#inputGroupFile").change(function () {
+            $("#uploadedAvatar").attr({ src: '' }); //先清除舊圖
+            previewImg1(this.files); //再預覽新圖
+        });
+        function previewImg1(files) {
+            if (files.length == 0)
+                return;
+            var file = files[0];
+            var fr = new FileReader();
+            //註冊：選檔被讀取完成後之事件處理器
+            fr.onload =
+                function () {
+                    $("#uploadedAvatar").attr({ src: fr.result });
+                };
+            fr.readAsDataURL(file);
+        }
+        $(document).ready(function () {
+            $('#SellerAccount').on('blur', function () {
+                debugger
+                var selleraccount = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("CheckAccount", "SellerHome")',
+                    type: 'POST',
+                    data: { account: selleraccount },
+                    success: function (data) {
+                        if (data) {
+                            $('#accountMsg').text('此帳號已被註冊');
+                            $('#saveBtn').attr('disabled', true);
+                        }
+                        else {
+                            $('#accountMsg').text('');
+                            $('#saveBtn').attr('disabled', false);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response
+                        console.log("Error:", error);
+                    }
+                });
+            });
+        });
+
+        //Demo鍵
+        function fillDemoData() {
+            document.getElementById("LastName").value = "tsao";
+            document.getElementById("FirstName").value = "tina";
+            document.getElementById("Email").value = "tinatsao.work@gmail.com";
+            document.getElementById("ContactNumber").value = "0935498752";
+            document.getElementById("Address").value = "高雄市前金區中正四路211號8樓之1";
+            document.getElementById("StoreName").value = "日京屋";
+            //document.getElementById("myTextarea").value = "這是一家Demo商店，歡迎來購物！";
+            tinymce.get('myTextarea').setContent('');
+            tinymce.get('myTextarea').setContent('因為太受歡迎而幾乎變成預約制的甜點店，實在厲害！「日京屋」(Niikyoya Patisserie)藏躲在住宅區中，每日新鮮製作的水果塔、香草泡芙因深受民眾喜愛而很難以緣份或巧遇買到，通常營業時間不久便售罄。舊址因為租約到期，2018年12月搬遷至附近重新開業，過去原以外帶為主的模式，因新店面誕生而有更寬敞的內用空間，但依舊強烈建議先以電話或FB私訊預訂，不然非常容易失望而歸。');
+            
+        }
+        document.getElementById("fillDemoDataBtn").addEventListener("click", fillDemoData);
+    </script>
+
+
+}

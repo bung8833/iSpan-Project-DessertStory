@@ -1,0 +1,300 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions;
+@model ISpan.Project_02_DessertStory.Customer.ViewModels.Home.ProductDetailViewModel
+
+@{
+    ViewData["Title"] = "List";
+    var currentUrl = Context.Request.GetDisplayUrl();
+}
+<style>
+    /**,
+                *::after,
+                *::before {
+                  box-sizing: border-box;
+                }
+
+                a {
+                  text-decoration: none;
+                }
+
+                body {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 100%;
+                  height: 100vh;
+
+                }*/
+
+    .wrapper {
+        max-width: 500px;
+        width: 100%;
+    }
+
+    .swiper-slide {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+    }
+
+
+
+    .gallery-thumbs {
+        width: 100%;
+        height: 80px;
+    }
+
+        .gallery-thumbs .swiper-slide {
+            opacity: 0.4;
+        }
+
+        .gallery-thumbs .swiper-slide-thumb-active {
+            opacity: 1;
+        }
+
+    .gallery-top {
+        width: 100%;
+        height: 300px;
+        bottom: 20px;
+    }
+    /*.col-lg-6.gallery-top {
+                  width: 100%;
+                }*/
+    .pro-secution a {
+        color: #808080;
+    }
+
+        .pro-secution a:link {
+            color: #F08080;
+        }
+
+        .pro-secution a:visited {
+            color: #A9A9A9;
+        }
+
+</style>
+<!-- Page Header Start -->
+<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">詳細資料</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-body" href="#">首頁</a></li>
+                @*<li class="breadcrumb-item"><a class="text-body" href="#">Pages</a></li>*@
+                <li class="breadcrumb-item" aria-current="page">產品</li>
+                <li class="breadcrumb-item text-dark active" aria-current="page">詳細資料</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<form asp-action="AddToCart" asp-controller="Cart" method="POST" enctype="multipart/form-data">
+    <input type="number" name="Id" value="@Model.Id" hidden />
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 gx-20 d-flex align-items-center overflow-hidden">
+                <div class="wrapper ">
+                    <div class="swiper-container gallery-top">
+                        <div class="swiper-wrapper">
+
+                            <div class="swiper-slide"
+                                 style="background-image:url('/images/products/@Model.Picture1')">
+                                <div class="swiper-button-next swiper-button-white"></div>
+                                <div class="swiper-button-prev swiper-button-white"></div>
+                            </div>
+                            @if (!string.IsNullOrEmpty(@Model.Picture2))
+                            {
+                                <div class="swiper-slide"
+                                 style="background-image:url('/images/products/@Model.Picture2')">
+                                    <div class="swiper-button-next swiper-button-white"></div>
+                                    <div class="swiper-button-prev swiper-button-white"></div>
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(@Model.Picture3))
+                            {
+                                <div class="swiper-slide"
+                                 style="background-image:url('/images/products/@Model.Picture3')">
+                                    <div class="swiper-button-next swiper-button-white"></div>
+                                    <div class="swiper-button-prev swiper-button-white"></div>
+                                </div>
+                            }
+
+                        </div>
+
+
+
+
+
+                    </div>
+                    <div class="swiper-container gallery-thumbs ">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"
+                                 style="background-image:url('/images/products/@Model.Picture1')"></div>
+                            <div class="swiper-slide"
+                                 style="background-image:url('/images/products/@Model.Picture2')"></div>
+                            <div class="swiper-slide"
+                                 style="background-image:url('/images/products/@Model.Picture3')"></div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-lg-6 gx-30 ps-5">
+                <div>
+                    <!-- product_img -->
+                    <div class="product_intro col-lg-8">
+
+                        <h4 id="name" class="title">@Model.ProductName</h4>
+
+                        <article class="product_detail userhtml mt-5">
+                            <p class='oprice'><span>售價：</span><span class='currency'></span><span id='Money'>@Html.DisplayFor(model => model.UnitPrice)</span></p>
+                            <p class='spec-list'><span>規格：</span><span id='ProductSize'>@Model.ProductSize</span></p>
+
+
+                            <div style="clear:both;"></div>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <span class="pd-qty-txt">數量：</span>
+                                    <div class="input-group pd-buy-outer py-3">
+                                        <div class="col-lg-6 d-flex">
+                                            <span class="input-group-btn btn-minus"><button id="decBtn" class="btn btn-outline-secondary rounded-start" type="button">-</button></span>
+                                            <input class="form-control quantity_input outline-secondary" id="quantity" name="Qty" value="1" onkeyup="this.value=this.value.replace(/[^0-9]/g,'0')" maxlength="2">
+
+                                            <span class=" input-group-btn btn-plus"><button id="addBtn" class="btn btn-outline-secondary rounded-end" type="button">+</button></span>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btn-wrap">
+                                <div class="cart-btn-wrap d-flex align-items-center">
+                                    <div class="btn_add_to_cart me-2">
+                                        <button class="btn btn-primary py-sm-2 px-sm-2 rounded rounded-3" data-buy="0" data-pid="166" type="submit">加入購物車</button>
+                                    </div>
+                                    <div class="quick_btn me-3">
+                                        <button class="btn btn-secondary py-sm-2 px-sm-2 rounded rounded-3" data-buy="1" data-pid="166" type="button">立即購買</button>
+                                    </div>
+                                    <div class="pro-secution d-flex align-items-center flex-grow-1">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        檢舉此商品
+                                    </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="products-detail">
+                            </div>
+                        </article>
+                    </div><!-- product_intro -->
+                </div><!-- product_intro_wrap -->
+
+            </div>
+
+            <div class="col-lg-7 gx-30 ps-5 mt-5 ">
+                <div class=" rounded">
+                    <h4 class="align-bottom ps-2">商品描述</h4>
+                    <hr />
+                    <p class="fs-3 text ps-5">
+                        @Html.Raw(@Model.Description)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form onchange="reasonstring()" asp-controller="ProductDetail" asp-action="Report" method="post">
+                <div class="modal-body">
+                    <div>
+                        檢舉原因:
+                        <select id="selectreport">
+                            <option>刷單製造不實銷量</option>
+                            <option>濫用文字誤導搜尋</option>
+                            <option>重複刊登/複製他人商品圖文</option>
+                            <option>違反鑑賞期</option>
+                            <option>導向外部資訊或交易</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <label>詳細資訊(最多100字):</label>
+                        <textarea rows="3" id="areastring" maxlength="100"></textarea>
+                    </div>
+                    <input hidden name="Rname" id="Rname" value="@Model.ProductName" />
+                    <input hidden name="Reportreason" id="Reportreason" />
+                    <input hidden name="Reportcategory" id="Reportcategory" value="Product" />
+                    <input hidden name="Detail" id="Detail" value="@currentUrl" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button onclick="reasonstring()" type="submit">檢舉</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function reasonstring() {
+            var select = document.getElementById('selectreport').value;
+            var reportstring = document.getElementById('areastring').value;
+            if (!reportstring || reportstring.trim() === '') {
+                reasonstring = "無";
+            }
+            document.getElementById('Reportreason').value = "檢舉原因:" + select + "，" + "詳細資訊:" + reportstring;
+        }
+        const mySwiper = new Swiper('.gallery-top', {
+
+            spaceBetween: 10,
+            slidesPerView: 1,
+            thumbs: {
+                swiper: {
+                    el: '.gallery-thumbs',
+
+                    spaceBetween: 10,
+                    slidesPerView: 4,
+                    freeMode: true,
+                },
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+        $(document).ready(function () {
+            // 當按下 "-" 按鈕時
+            $(".btn-minus").click(function () {
+                var quantityInput = $(this).closest(".input-group").find(".quantity_input");
+                var currentValue = parseInt(quantityInput.val());
+                if (currentValue > 1) { // 確保值不會小於1
+                    quantityInput.val(currentValue - 1);
+                }
+            });
+
+            // 當按下 "+" 按鈕時
+            $(".btn-plus").click(function () {
+                var quantityInput = $(this).closest(".input-group").find(".quantity_input");
+                var currentValue = parseInt(quantityInput.val());
+                if (currentValue < 20) {
+                    quantityInput.val(currentValue + 1);
+                }
+            });
+        });
+    </script>
+
+              }

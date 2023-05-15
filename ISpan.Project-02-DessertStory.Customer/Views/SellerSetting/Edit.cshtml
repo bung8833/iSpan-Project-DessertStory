@@ -1,0 +1,205 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.Models.EF.Seller
+@*@model template_test3.ViewModels.Sellers.SellerSettingViewModel*@
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>帳戶</h1>
+<h6 class="--bs-dark-text-emphasis">更新您的基本帳戶資訊</h6>
+<hr class="my-3" />
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+
+
+<form asp-action="EditAccount" id="Form1">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">帳號</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="Account"
+                   name="Account"
+                   class="form-control"
+                   value="@Model.Account" readonly />
+        </div>
+    </div>
+@*    <div class="mb-3 col-md-6">
+        <div class="form-password-toggle">
+            <label class="form-password-toggle" for="password">新密碼</label>
+            <div class="input-group">
+                <input type="password"
+                       id="Password"
+                       name="Password"
+                       class="form-control"
+                       value="" />
+                <span id="basic-default-password2" class="input-group-text cursor-pointer">
+                    <i class="bx bx-hide"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mb-3 col-md-6">
+        
+            <div class="form-password-toggle">
+                <label class="form-password-toggle" for="password">確認密碼</label>
+                <div class="input-group">
+
+                    <input type="password"
+                           id="ConfirmPassword"
+                           name="ConfirmPassword"
+                           class="form-control"
+                           value="" />
+                    <span id="basic-default-password2" class="input-group-text cursor-pointer">
+                        <i class="bx bx-hide"></i>
+                    </span>
+                </div>
+            </div>
+      
+    </div>*@
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="phoneNumber">聯絡電話</label>
+        <div class="input-group input-group-merge">
+            <span class="input-group-text">TW (+886)</span>
+            <input type="text"
+                   id="phoneNumber"
+                   name="ContactNumber"
+                   class="form-control"
+                   value="@Model.ContactNumber" />
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label for="email" class="form-label-lg">E-mail</label>
+        <input class="form-control"
+               type="text"
+               id="email"
+               name="email"
+               value="@Model.Email"
+               @*placeholder="john.doe@example.com"*@ />
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary me-2" id="saveBtn">儲存</button>
+        <button type="reset" class="btn btn-outline-secondary" id="cancelBtn">取消</button>
+    </div>
+
+</form>
+
+@section Scripts{
+    <script>
+        $("#Form1").submit(function (event) {
+            var password1 = $("#Password").val();
+            console.log(password1);
+            var password2 = $("#ConfirmPassword").val();
+            console.log(password2);
+            if (password1 !== password2) {
+                
+                alert("兩次密碼不一致");
+                //$("#ConfirmPassword").get(0).setCustomValidity("兩次密碼不相同.");
+                event.preventDefault();
+            }
+        });
+        $(document).ready(function () {
+            $("#saveBtn").click(function (e) {
+                e.preventDefault();
+                //跳出確認視窗
+                Swal.fire({
+                    title: '確定要儲存嗎?',
+                    showCancelButton: true,
+                    confirmButtonText: '儲存',
+                    cancelButtonText: '取消',
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        //提交
+                        Swal.fire('儲存成功!', '', 'success').then((result) => { $("#Form1").submit(); })
+                    }
+                })
+            })
+        })
+
+        $(document).ready(function () {
+            $("#cancelBtn").click(function (e) {
+                e.preventDefault();
+                //跳出確認視窗
+                Swal.fire({
+                    title: '確定要取消嗎?',
+                    //showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消',
+                    //denyButtonText: `不要儲存`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        Swal.fire('已取消', '', 'info').then((result) => {
+                            //跳轉到指定Action
+                            window.setTimeout(function () {
+                                window.location.href = '@Url.Action("List", "SellerSetting", new { Id = @Model.Id })';
+                            }, 1000);
+                        })
+                    }
+                })
+            })
+        })
+    </script>
+}
+
+
+
+
+
+
+
+    @*<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+      }
+    </tbody>
+</table>*@

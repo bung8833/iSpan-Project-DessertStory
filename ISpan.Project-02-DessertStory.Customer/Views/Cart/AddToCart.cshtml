@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "購物車";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Page Header Start -->
+<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">購物車</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-body" asp-action="Index" asp-controller="Home">首頁</a></li>
+                <li class="breadcrumb-item text-dark active" aria-current="page">購物車</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+
+@{
+    if (ViewBag.Error) {
+        <h4>這個商品不存在，請聯絡客服人員協助您。</h4>
+    }
+}

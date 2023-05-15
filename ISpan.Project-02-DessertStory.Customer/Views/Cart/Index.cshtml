@@ -1,0 +1,258 @@
+﻿@model List<ISpan.Project_02_DessertStory.Customer.ViewModels.Shopping.CartVM>
+@{
+    ViewData["Title"] = "購物車";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <style>
+        div {
+            /*border: 1px dotted black !important;*/
+            padding: 0px;
+            margin: 0px;
+        }
+
+        table, th, td {
+            /*border: 1px solid black;*/
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .qty-group {
+            width: 120px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .minus, .plus {
+            cursor: pointer;
+            /*padding:0px 0px 0px 0px;*/ /*up right bottom left*/
+            /*height: 25px; /*25px;*/
+            /*width: 25px;*/ /*25px;*/
+            /*text-align: center;
+                            font-size: 1.2em;*/
+
+            border: none;
+            border-radius: 5px;
+            /*display: inline-block;*/
+            /*vertical-align: middle;*/
+            background: white /*#f2f2f2*/;
+        }
+
+        input.qty {
+            /*height: 25px;
+                            width: 50px;*/
+            width: 100%;
+            text-align: center;
+            /*font-size: 0.9em;*/
+
+            border: none;
+            /*border-radius: 4px;*/
+            outline: none;
+            box-shadow: none;
+            /*display: inline-block;
+                            vertical-align: top;*/
+        }
+
+            input.qty:focus, input.qty:active, input.qty:active:focus, input.qty.active:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+        .btn {
+            border-radius: 5px;
+        }
+
+        
+        .btn:focus, .btn:active, .btn:active:focus, .btn.active:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .productName, .storeName {
+            color: #555555;
+        }
+        .productName:hover {
+            color: #C34F5A;
+        }
+        .storeName:hover {
+            color: #C34F5A;
+        }
+    </style>
+}
+
+<!-- Page Header Start -->
+<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">購物車</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-body" asp-action="Index" asp-controller="Home">首頁</a></li>
+                <li class="breadcrumb-item text-dark active" aria-current="page">購物車</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar" @*style="border: 0px solid red"*@>
+    <div class="layout-container" @*style="border: 0px solid #FF5500"*@>
+
+        <!-- Layout container -->
+        <div class="layout-page" @*style="border: 0px solid yellow"*@>
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper" @*style="border: 0px solid green"*@>
+                <!-- Content -->
+                
+                    <div class="container-xl flex-grow-1 container-p-y" @*style="border: 0px solid #005599"*@>
+
+                        @{
+                            if (Model.Count() == 0) {
+
+                                    <h4>購物車是空的</h4><br />
+                                    <b>我們的網站有各式各樣的美味甜點，歡迎參觀選購！</b><br />
+
+                                    @Html.ActionLink("馬上去看看", "Index", "Products", null, new { @class="btn btn-secondary mt-4" })
+                            }
+
+                            foreach (var cart in Model)
+                            {
+                            int i = 0;
+                                    <form asp-action="Order">
+                                    <input hidden name="SellerId" id="SellerId" value="@cart.seller.Id" />
+                                    <!-- Basic Bootstrap Table -->
+                                    <div class="card" @*style="border: 0px solid blue"*@>
+                                        <h5 class="card-header" style="background-color: #fde7eb">
+                                            <img src="~/images/@cart.seller.Picture" height="65px" />
+                                            <span class="ms-3">@Html.ActionLink(cart.seller.StoreName, "Index", "SellerDetail", new { Id = cart.seller.Id }, new { @class = "storeName" })</span>
+                                            <input type="submit" class="btn btn-info" value="結帳">
+                                        </h5>
+                                        <div class="table-responsive text-nowrap" style="border: 0px solid blue">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align: left">商品</th>
+                                                        <th style="text-align: left">規格</th>
+                                                        <th style="text-align: left">單價</th>
+                                                        <th style="text-align: left">數量</th>
+                                                        <th style="text-align: left">小計</th>
+                                                        <th style="text-align: left">操作</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-border-bottom-0">
+                                                    @{                                                    
+                                                    foreach (var cartItem in cart.CartItemVMs)
+                                                    {
+                                                                <tr>
+                                                                    <td>
+                                                                        <input hidden name="OrderDetail[@i].ProductId" id="OrderDetail[@i].ProductId" value="@cartItem.product.Id">
+                                                                        <input hidden name="OrderDetail[@i].ProductName" id="OrderDetail[@i].ProductName" value="@cartItem.product.ProductName">
+                                                                        <input hidden name="OrderDetail[@i].UnitPrice" id="OrderDetail[@i].UnitPrice" value="@cartItem.product.UnitPrice">
+                                                                        <div class="py-4 d-flex" style="width: 250px; font-size: 1.2em">
+                                                                            <strong>@Html.ActionLink(cartItem.product.ProductName, "List", "ProductDetail", new { Id = cartItem.product.Id }, new { @class = "productName" })</strong>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="py-4 d-flex" style="width: 80px;">
+                                                                            <b>@Html.DisplayFor(Model => cartItem.product.ProductSize)</b>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="py-4" style="width: 50px;">
+                                                                            <span>$</span><span class="unitPrice">@Html.DisplayFor(Model => cartItem.UnitPrice)</span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        @*數量選取*@
+                                                                        <div class="input-group py-3" style="width: 160px">
+                                                                            <div class="qty-group d-flex">
+                                                                                <span class="minus input-group-btn"><button class="btn rounded-start" type="button">-</button></span>
+                                                                                <input class="qty form-control" name="OrderDetail[@i].Qty" id="Qty" value="@Html.DisplayFor(Model => cartItem.Qty)" onkeyup="this.value=this.value.replace(/[^0-9]/g,'0')" maxlength="2">
+                                                                                <span class="plus input-group-btn"><button class="btn rounded-end" type="button">+</button></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        @*顯示小計*@
+                                                                        <div class="py-4 d-flex" style="width: 40px">
+                                                                            <span>$</span><span class="subtotal">@Html.DisplayFor(Model => cartItem.Subtotal)</span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="py-3 d-flex">
+                                                                            @Html.ActionLink("刪除", "Delete", new { productId=cartItem.product.Id }, new { @class="btn btn-primary px-2 py-1 my-1 me-3" })
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                        i++;
+                                                    }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </form>
+                                    <!--/ Basic Bootstrap Table -->
+                            }
+                        }
+
+                    </div>
+                
+                <!-- / Content -->
+
+
+                <div class="content-backdrop fade"></div>
+            </div>
+            <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.minus').click(function (event) {
+                event.preventDefault();
+                let $input = $(this).parent().find('input.qty');
+                let count = parseInt($input.val()) - 1;
+                $input.val(count);
+
+                $input.change();
+            });
+            $('.plus').click(function (event) {
+                event.preventDefault();
+                let $input = $(this).parent().find('input.qty');
+                let count = parseInt($input.val()) + 1;
+                $input.val(count);
+
+                $input.change();
+            });
+
+            $('.qty').on("change", function (event) {
+                event.preventDefault();
+                let $input = $(this).parent().find('input.qty');
+                let count = parseInt($input.val());
+                count = count > 20 ? 20 : count;
+                count = count < 1 ? 1 : count;
+                $input.val(count);
+
+                // change subtotal
+
+                // change subtotal
+
+                let subtotal = $(this).parents('td').next().find('.subtotal');
+                //console.log($(this).parents('tr').find('td:nth-child(5) .subtotal').text() * count)
+                let unitPrice = $(this).parents('td').prev().find('.unitPrice');
+
+                let price = parseFloat(unitPrice.text().replace(/,/g, ''));
+
+                subtotal.text(price * count);
+            });
+        });
+    </script>
+}

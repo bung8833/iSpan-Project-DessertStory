@@ -1,0 +1,51 @@
+﻿@using ISpan.Project_02_DessertStory.Customer.Models.EF
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@{
+    ViewData["Title"] = "Detail";
+    var post = ViewBag.Post as Post;
+    var replies = ViewBag.Replies as List<Reply>;
+}
+<link rel="stylesheet" href="~/css/Post.css" asp-append-version="true" />
+<div class="post-container">
+    <div class="post-title">[標題] @post.Title <p style="float:right">@post.UserId</p></div>
+    <div></div>
+    <div class="post-content">@Html.Raw(post.TContent)</div>
+    
+    <hr />
+
+    @if (ViewBag.Replies != null)
+    { int count = 0;
+        <div class="reply-container">
+            <h4>回覆</h4>         
+            @foreach (var reply in ViewBag.Replies)
+            {count++;
+                <div class="reply">
+                    <div class="reply-header">                                             
+                         @count 樓
+                        @Html.Raw(reply.TContent) 
+                    </div>
+                    <div class="reply-meta" >
+                        <span>@reply.CreatedAt.ToString("yyyy/MM/dd HH:mm:ss")</span>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    <div class="reply-form-container">
+        <h4>回覆留言</h4>
+        <form method="post" asp-action="CreateReply">
+            <div style="text-align:left">
+                <textarea name="TContent" placeholder="請輸入回覆內容" rows="5" cols="87"></textarea>
+            </div>
+            <div>
+                <input type="submit" value="回覆" /> 
+                <a asp-action="List" class="btn btn-primary" style="float:right">回到留言板</a>
+            </div>
+            <input type="hidden" name="PostId" value="@post.PostId" />
+        </form>
+    </div>
+
+   
+</div>
+

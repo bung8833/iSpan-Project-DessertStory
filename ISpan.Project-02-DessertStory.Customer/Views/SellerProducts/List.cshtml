@@ -1,0 +1,320 @@
+﻿@model IEnumerable<ISpan.Project_02_DessertStory.Customer.ViewModels.Sellers.SellerProductsViewModel>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>產品清單</h1>
+<h6 class="--bs-dark-text-emphasis">查看您的商品狀態</h6>
+<hr class="my-3" />
+<style>
+
+</style>
+
+<!-- Tabs -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="nav-align-top mb-4 d-flex">
+            <p style="text-align:left">
+                <a asp-action="Create" class="btn btn-primary me-2" id="create-product">+ 新增商品</a>
+            </p>
+            <ul class="nav nav-tabs" role="tablist">
+
+                <li class="nav-item">
+                    <button type="button"
+                            class="nav-link active"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-top-All"
+                            aria-controls="navs-top-All"
+                            aria-selected="true">
+                        所有商品
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button"
+                            class="nav-link"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-top-push"
+                            aria-controls="navs-top-push"
+                            aria-selected="false">
+                        上架中
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button"
+                            class="nav-link"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-top-pull"
+                            aria-controls="navs-top-pull"
+                            aria-selected="false">
+                        已下架
+                    </button>
+                </li>
+
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="navs-top-All" role="tabpanel">
+                    @*顯示全部*@
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    No.
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.photo1)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProductName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProductSize)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UnitPrice)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UnitsInStock)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 0;
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+
+                                    @Html.HiddenFor(modelItem => item.Id)
+                                    <tr>
+                                        <td>
+                                            @count
+                                        </td>
+                                        <td>
+                                            @{
+                                                string photoname = string.Empty;
+                                                if (!String.IsNullOrEmpty(item.Picture1))
+                                                {
+                                                    photoname = item.Picture1;
+                                                }
+                                                else
+                                                {
+                                                    photoname = "defaultproduct.jpg";
+                                                }
+                                            }
+                                            <img src="~/images/products/@photoname" width="150" height="auto"
+                                         alt="person-icon"
+                                         class="d-block rounded"
+                                         id="uploadedAvatar1" />
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ProductName)
+
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ProductSize)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UnitPrice)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UnitsInStock)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("編輯", "Edit", new { Id=item.Id}) |
+                                            @Html.ActionLink("刪除", "Delete","SellerProducts", new {  id=item.Id },
+                                    new {onclick="return confirm('確定要刪除嗎?')"})
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="navs-top-push" role="tabpanel">
+                    @*上架中*@
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    No.
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.photo1)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProductName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProductSize)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UnitPrice)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UnitsInStock)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int countpush = 0;
+                                @foreach (var item in Model)
+                                {
+                                    if (item.ProductStatus)
+                                    {
+                                        countpush++;
+
+                                        @Html.HiddenFor(modelItem => item.Id)
+                                        <tr>
+                                            <td>
+                                                @countpush
+                                            </td>
+                                            <td>
+
+                                                @{
+                                                    string photoname = string.Empty;
+                                                    if (!String.IsNullOrEmpty(item.Picture1))
+                                                    {
+                                                        photoname = item.Picture1;
+                                                    }
+                                                    else
+                                                    {
+                                                        photoname = "defaultproduct.jpg";
+                                                    }
+                                                }
+                                                <img src="~/images/products/@photoname" width="150" height="auto"
+                                         alt="person-icon"
+                                         class="d-block rounded"
+                                         id="uploadedAvatar1" />
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ProductName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ProductSize)
+                                            </td>
+
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UnitsInStock)
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("編輯", "Edit", new { Id=item.Id}) |
+                                                @Html.ActionLink("刪除", "Delete","SellerProducts", new {  id=item.Id },
+                                    new {onclick="return confirm('確定要刪除嗎?')"})
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="navs-top-pull" role="tabpanel">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    No.
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.photo1)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProductName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProductSize)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UnitPrice)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UnitsInStock)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int countpull = 0;
+                                @foreach (var item in Model)
+                                {
+                                    if (!item.ProductStatus)
+                                    {
+                                        countpull++;
+
+                                        @Html.HiddenFor(modelItem => item.Id)
+                                        <tr>
+                                            <td>
+                                                @countpull
+                                            </td>
+                                            <td>
+                                                @{
+                                                    string photoname = string.Empty;
+                                                    if (!String.IsNullOrEmpty(item.Picture1))
+                                                    {
+                                                        photoname = item.Picture1;
+                                                    }
+                                                    else
+                                                    {
+                                                        photoname = "defaultproduct.jpg";
+                                                    }
+                                                }
+                                                <img src="~/images/products/@photoname" width="150" height="auto"
+                                         alt="person-icon"
+                                         class="d-block rounded"
+                                         id="uploadedAvatar1" />
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ProductName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ProductSize)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UnitsInStock)
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("編輯", "Edit", new { Id=item.Id})  |
+                                                @Html.ActionLink("刪除", "Delete","SellerProducts", new {  id=item.Id },
+                                    new {onclick="return confirm('確定要刪除嗎?')"})
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+    </script>
+}
+

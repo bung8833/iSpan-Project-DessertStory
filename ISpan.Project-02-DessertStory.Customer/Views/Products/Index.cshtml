@@ -1,0 +1,206 @@
+﻿@model IEnumerable<ISpan.Project_02_DessertStory.Customer.Models.EF.Category>
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<!-- Page Header Start -->
+<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">Products</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-body" href="#">首頁</a></li>
+                @*<li class="breadcrumb-item"><a class="text-body" href="#">Pages</a></li>*@
+                <li class="breadcrumb-item text-dark active" aria-current="page">產品</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+@*<!-- Product Start -->*@
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-0 gx-5 align-items-end">
+            <div class="col-lg-6">
+                <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+                    <h1 class="display-5 mb-3">Our Products</h1>
+                    <p>尋找您所喜愛的獨特甜點，開啟味覺冒險之旅。</p>
+                </div>
+            </div>
+
+            @*打算用來當分類的按鈕--開始*@
+            <div class="col-lg-12 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
+                <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+                    <li class="nav-item me-2">
+                        <a class="btn btn-outline-primary border-2 active" data-bs-toggle="pill" href="#tab-1" value="">所有商品</a>
+                    </li>
+                    @foreach (var category in @Model)
+                    {
+                        <li class="nav-item me-2">
+                            <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-@(category.Id)" value="@category.Id">@category.Name</a>
+                        </li>
+                    }
+@*                    <li class="nav-item me-2">
+                        <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-2" value="1">塔/派 </a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-3" value="2">蛋糕</a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-4" value="3">千層蛋糕</a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-5" value="4">乳酪蛋糕</a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-6" value="35">提拉米蘇</a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-7" value="36">鹹派</a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-8" value="45">生日蛋糕</a>
+                    </li>*@
+                </ul>
+            </div>
+            @*打算用來當分類的按鈕--結束*@
+        </div>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane fade show p-0 active">
+                <div class="row g-4" id="product-list">
+                    <div id="product-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Product End -->
+@section Scripts{
+    <script>
+        $(document).ready(function () {})
+        //初始化頁面，所有商品
+        $(document).ready(function () {
+            $.ajax({
+                type: "Get",
+                url: "/Api/ProductsQueryService/", // Replace with the URL of your controller action method
+                contentType: "application/json",
+                dataType: "json",
+                success: function (datas) {
+                    console.log(datas)
+                    var productList = "";
+                    $.each(datas, function (index, value) {
+                        $("#product-list").append(
+                            `<div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data - wow - delay="0.1s">
+                                                                                                            <div class="product-item">
+                                                                                                               <div class="position-relative bg-light overflow-hidden " style="padding-bottom: 100%; background-image: url('/images/products/${value.picture1}'); background-size: 100% auto;  background-repeat: no-repeat;
+                                                                                                      background-position: center;">
+
+                                                                                                                    <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">${value.storeName}</div>
+
+                                                                                                                </div>
+                                                                                                                <div class="text-center p-4">
+                                                                                                                    <a class="d-block h5 mb-2" href=""> ${value.productName}</a>
+                                                                                                                    <span class="text-primary me-1"> $${value.unitPrice}</span>
+                                                                                                                </div>
+                                                                                                                <div class="d-flex border-top">
+                                                                                                                    <small class="w-50 text-center border-end py-2">
+                                                                                                                                    <a class="text-body" href="/ProductDetail/List/${value.productId}"> <i class="fa fa-eye text-primary me-2"></i>View detail</a>
+                                                                                                                    </small>
+                                                                                                                    <small class="w-50 text-center py-2">
+                                                                                                                                        <a class="text-body" href="javascript:void(0)" onclick="addToCart(${value.productId})"> <i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                                                                                                                    </small>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>`
+                        );
+                    });
+
+                },
+                error: function () {
+                    alert("Error loading products.");
+                }
+            });
+        });
+
+
+        //選取後的分類商品
+        const buttons = document.querySelectorAll('.nav-item .btn');
+        buttons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const value = event.target.getAttribute('value');
+                console.log(`Button with value1 ${value} was clicked`);
+                //Do something with the value, such as filtering the products displayed
+                myProducts(value);
+            });
+        });
+
+        function myProducts(value) {
+            $.ajax({
+                type: "Get",
+                url: `/Api/ProductsQueryService/${value}`, // Replace with the URL of your controller action method
+                contentType: "application/json",
+                dataType: "json",
+                success: function (datas) {
+                    console.log(datas)
+                    $("#product-list").empty()
+                    $.each(datas, function (index, value) {
+
+                        $("#product-list").append(
+                            `<div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data - wow - delay="0.1s">
+                                                                                                                            <div class="product-item">
+                                                                                                                               <div class="position-relative bg-light overflow-hidden " style="padding-bottom: 100%; background-image: url('/images/products/${value.picture1}'); background-size: 100% auto;  background-repeat: no-repeat;
+                                                                                                                      background-position: center;">
+
+                                                                                                                                    <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">${value.storeName}</div>
+
+                                                                                                                                </div>
+                                                                                                                                <div class="text-center p-4">
+                                                                                                                                    <a class="d-block h5 mb-2" href=""> ${value.productName}</a>
+                                                                                                                                    <span class="text-primary me-1"> $${value.unitPrice}</span>
+                                                                                                                                </div>
+                                                                                                                                <div class="d-flex border-top">
+                                                                                                                                    <small class="w-50 text-center border-end py-2">
+                                                                                                                                                    <a class="text-body" href="/ProductDetail/List/${value.productId}"> <i class="fa fa-eye text-primary me-2"></i>View detail</a>
+                                                                                                                                    </small>
+                                                                                                                                    <small class="w-50 text-center py-2">
+                                                                                                                                                                <a class="text-body" href="javascript:void(0)" onclick="addToCart(${value.productId})"> <i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                                                                                                                                    </small>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>`
+                        );
+                    });
+
+                },
+                error: function () {
+                    alert("Error loading products.");
+                }
+            });
+        };
+
+
+        function addToCart(productId) {
+            var qty = 1; // 取得 Qty 的值
+            $.ajax({
+                url: '/Cart/AddToCart',
+                type: 'POST',
+                data: { Id: productId, Qty: qty },
+                success: function (result) {
+                    // 處理成功回傳的結果
+                    Swal.fire({
+                        icon: 'success',
+                        title: '商品已加入購物車',
+                        showConfirmButton: false,
+                        timer: 2000  // 設定訊息顯示時間，單位為毫秒
+                    });
+                },
+                error: function () {
+                    // 處理錯誤
+                }
+            });
+        }
+
+    </script>
+    }

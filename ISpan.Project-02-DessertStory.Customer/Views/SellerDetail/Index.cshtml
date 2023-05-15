@@ -1,0 +1,293 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.ViewModels.Home.SellerDetailViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    .card {
+        border-radius: 10px;
+        margin-bottom: 15px;
+        border-color: #FFF;
+    }
+
+    .card-body.Regular.shadow {
+        width: 600px; /* 指定外部容器的寬度 */
+        height: 480px; /* 指定外部容器的高度 */
+    }
+</style>
+@*<!--Here Api Use Start-->
+<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+<!--Here Api Use End-->*@
+
+
+<!-- Page Header Start -->
+<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">Detail</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-body" href="#">首頁</a></li>
+                @*<li class="breadcrumb-item"><a class="text-body" href="#">Pages</a></li>*@
+                <li class="breadcrumb-item" aria-current="page">賣家</li>
+                <li class="breadcrumb-item text-dark active" aria-current="page">詳細資料</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card col-md-10 mx-auto fadeInUp" data-wow-delay="0.1s">
+                    <div class="card-body Small shadow">
+                        <div class="row ">
+                            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                                <img src="/images/@Model.Picture" class="img-fluid rounded-circle h-50" alt="Responsive image">
+                            </div>
+                            <div class="col-md-6 p-5">
+                                <h4>店名</h4>
+                                <p>@Model.StoreName</p>
+                                <h4>地址</h4>
+                                <p>@Model.Address</p>
+                                <h4>電話</h4>
+                                <p>@Model.Phone</p>
+                                                            
+                              <a href="#" class="d-flex align-items-center">檢舉此店家</a>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 fadeInUp" data-wow-delay="0.1s">
+                <div class="card col-md-10 mx-auto">
+                    <div class="card-body Small shadow">
+                        <div class="row m-3">
+                            <h4>店家介紹</h4>
+                            <hr />
+                            <p></p>
+                            <p>@Html.Raw(@Model.Description)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card col-md-10 mx-auto">
+                    <div class="card-body Regular shadow m-3">
+                        <div class="row ms-3">
+                            <h4>店家地圖</h4>
+                            <hr />
+                        </div>
+                        <div style="width: 90%; height: 90%" id="mapContainer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    <div class="tab-content">
+        <div id="tab-1" class="tab-pane fade show p-0 active">
+            <div class="row g-4" id="product-list">
+                <div id="product-list"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+    </p>
+
+    <table class="table">
+    <thead>
+    <tr>
+    <th>
+    @Html.DisplayNameFor(model => model.Id)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.StoreName)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Picture)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Description)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Address)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Phone)
+    </th>
+
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr>
+    <td>
+    @Html.DisplayFor(modelItem => Model.Id)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => Model.StoreName)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => Model.Picture)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => Model.Description)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => Model.Address)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => Model.Phone)
+    </td>
+
+    </tr>
+
+    </tbody>
+    </table>*@
+@section Scripts{
+    <script>
+        let address = `@Html.Raw(Model.Address)`
+        let Id = `@Html.Raw(Model.Id)`
+        //debugger
+        async function fethData() {
+            const response = await fetch(`https://geocode.search.hereapi.com/v1/geocode?q=${address}&apiKey=h8ygrGhYZRdckAnu1549NiddCwWv28JHgKM3CY98L74`)
+            //debugger
+            let data = null;
+            if (response.ok) {
+                //data = response.json();
+                data = await response.text();
+                data = JSON.parse(data)
+            }
+            if (data.items.length > 0) {
+                const lat = data.items[0].position.lat;
+                const lng = data.items[0].position.lng;
+                var platform = new H.service.Platform({
+                    'apikey': 'h8ygrGhYZRdckAnu1549NiddCwWv28JHgKM3CY98L74'
+                });
+
+                var defaultLayers = platform.createDefaultLayers({
+                    lg: 'zh-TW'
+                });
+
+                //debugger
+                var map = new H.Map(
+                    document.getElementById('mapContainer'),
+                    defaultLayers.vector.normal.map,
+                    {
+                        zoom: 17,
+                        center: { lat: lat, lng: lng },
+                        // language: 'zh-TW',
+                    });
+                var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+                var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+                /*圖標-start*/
+                // 創建一個 Marker 對象，並設置其位置和圖標
+
+                // 自定義圖標的尺寸（以像素為單位）
+                var iconSize = new H.math.Size(60, 60);
+
+                // 使用自定義圖像和尺寸創建圖標
+                var icon = new H.map.Icon("/images/mapicon.png", { size: iconSize });
+                //var icon = new H.map.Icon('https://path/to/your/custom/icon/image.png', { size: iconSize });
+
+
+                var marker = new H.map.Marker({ lat: lat, lng: lng }, { icon: icon });
+
+                // 設置圖標大小
+                //icon1.setSize({ w:32, h:32 });
+
+                // 將 Marker 添加到地圖上
+                map.addObject(marker);
+                //console.log(getLatLngFromAddress('桃園市330桃園區正光路71巷6號'))
+
+                /*圖標-end*/
+                console.log(lat, lng);
+                var marker = new H.map.Marker({ lat: lat, lng: lng }, { icon: icon });
+                //return { lat, lng };
+            }
+        }
+
+        fethData().then(data => {
+            console.log(data)
+        }).catch(error => {
+            console.log(error)
+        });
+        //初始化頁面，所有商品
+        $(document).ready(function () {
+            //debugger
+            $.ajax({
+                type: "POST",
+                url: "/Products/GetProducts", // Replace with the URL of your controller action method
+                //contentType: "application/json",
+                dataType: "json",
+                data: {sellerid: Id},
+                success: function (datas) {
+                    console.log(datas)
+                    var productList = "";
+                    $.each(datas, function (index, value) {
+                        $("#product-list").append(
+                            `<div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data - wow - delay="0.1s">
+                                                                                                                                                                        <div class="product-item">
+                                                                                                                                                                           <div class="position-relative bg-light overflow-hidden " style="padding-bottom: 100%; background-image: url('/images/products/${value.picture1}'); background-size: 100% auto;  background-repeat: no-repeat;
+                                                                                                                                                                  background-position: center;">
+
+                                                                                                                                                                                <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">${value.storeName}</div>
+
+                                                                                                                                                                            </div>
+                                                                                                                                                                            <div class="text-center p-4">
+                                                                                                                                                                                <a class="d-block h5 mb-2" href=""> ${value.productName}</a>
+                                                                                                                                                                                <span class="text-primary me-1"> $${value.unitPrice}</span>
+                                                                                                                                                                            </div>
+                                                                                                                                                                            <div class="d-flex border-top">
+                                                                                                                                                                                <small class="w-50 text-center border-end py-2">
+                                                                                                                                                                                                <a class="text-body" href="/ProductDetail/List/${value.productId}"> <i class="fa fa-eye text-primary me-2"></i>View detail</a>
+                                                                                                                                                                                </small>
+                                                                                                                                                                                <small class="w-50 text-center py-2">
+                                                                                                                                                                                                                       <a class="text-body" href="javascript:void(0)" onclick="addToCart(${value.productId})"> <i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                                                                                                                                                                                </small>
+                                                                                                                                                                            </div>
+                                                                                                                                                                        </div>
+                                                                                                                                                                    </div>`
+                        );
+                    });
+
+                },
+                error: function () {
+                    alert("Error loading products.");
+                }
+            });
+        });
+            function addToCart(productId) {
+                var qty = 1; // 取得 Qty 的值
+                $.ajax({
+                    url: '/Cart/AddToCart',
+                    type: 'POST',
+                    data: { Id: productId, Qty: qty },
+                    success: function (result) {
+                        // 處理成功回傳的結果
+                        Swal.fire({
+                            icon: 'success',
+                            title: '商品已加入購物車',
+                            showConfirmButton: false,
+                            timer: 2000  // 設定訊息顯示時間，單位為毫秒
+                        });
+                    },
+                    error: function () {
+                        // 處理錯誤
+                    }
+                });
+            }
+    </script>
+    };
+

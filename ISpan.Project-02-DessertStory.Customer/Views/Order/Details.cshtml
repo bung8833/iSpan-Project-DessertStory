@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ISpan.Project_02_DessertStory.Customer.ViewModels.Shopping.MemberOrderDetailVM>
+
+@{
+    ViewData["Title"] = "訂單明細";
+    Layout = "~/Views/Shared/_MemberCenterLayout.cshtml";
+}
+
+@{
+    if (ViewBag.NullOrderError != null)
+    {
+        <h4>查無此訂單，請聯絡客服協助您</h4><br />
+    }
+    else if (ViewBag.EmptyDetailsError != null)
+    {
+        <h4>查無訂單明細，請聯絡客服協助您</h4><br />
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>品名</th>
+                    <th>數量</th>
+                    <th>小計</th>
+                    <th>尺寸</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Qty)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Subtotal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Size)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}

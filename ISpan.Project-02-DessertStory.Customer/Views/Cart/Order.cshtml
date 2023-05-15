@@ -1,0 +1,194 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.Models.EF.Order
+
+@{
+    ViewData["Title"] = "Order";
+}
+<style>
+    .ordercontainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+</style>
+<script src="https://www.paypal.com/sdk/js?client-id=AYKtl5FuliZlDwsBVn8gj7EL71frh8Z-GVK_9xya4IGOG-RRodeozYJYK0afKLjd6ZbAGdnHmcit1Zz8"></script>
+
+<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">訂單</h1>        
+    </div>
+</div>
+
+<div class="ordercontainer">
+    <div style="width:600px" class="col-md-4">
+        <form asp-action="CreatOrder" id="myForm">
+            <div class="container-xl flex-grow-1 container-p-y">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:2000px">商品名稱</th>
+                            <th style="width:200px;text-align:right">數量</th>
+                            <th style="width:400px;text-align:right">價格</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                @{
+                    foreach (var cartItem in ViewBag.ODvm)
+                    {
+                        <tr>
+                                    <th>@cartItem.ProductName</th>
+                                    <th style="text-align:right">@cartItem.Qty</th>
+                                    <th style="text-align:right">@cartItem.UnitPrice.ToString("N0")</th>
+                        </tr>
+                    }
+                }
+                    </tbody>
+                </table>
+                <br />
+                <div style="text-align:right">
+                    <label>總價:</label><label>@ViewBag.totalprice.ToString("N0")</label>
+                </div>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*隱藏項目*@
+            <div hidden class="container-xl flex-grow-1 container-p-y">
+
+                @{
+                    int i = 0;
+                    foreach (var cartItem in ViewBag.ODvm)
+                    {
+                        decimal subtotal = cartItem.Qty * cartItem.UnitPrice;
+                        <input  name="OrderDetail[@i].ProductId" id="OrderDetail[@i].ProductId" value="@cartItem.ProductId">
+                        <input  name="OrderDetail[@i].UnitPrice" id="OrderDetail[@i].UnitPrice" value="@cartItem.UnitPrice">
+                        <input  name="OrderDetail[@i].Qty" value="@cartItem.Qty">
+                        <input  name="OrderDetail[@i].Subtotal" value="@subtotal">
+                        i++;
+                    }
+                }
+            </div>
+            <div hidden class="form-group">
+                <label asp-for="MemberId" class="control-label"></label>
+                <input asp-for="MemberId" class="form-control" value="@ViewBag.memberid" />
+                <span asp-validation-for="MemberId" class="text-danger"></span>
+            </div>
+            <div hidden class="form-group">
+                <label asp-for="SellerId" class="control-label"></label>
+                <input asp-for="SellerId" class="form-control" value="@ViewBag.sellerid" />
+                <span asp-validation-for="SellerId" class="text-danger"></span>
+            </div>
+            <div hidden class="form-group">
+                <label asp-for="TotalPrice" class="control-label">總價</label>
+                <input asp-for="TotalPrice" class="form-control" value="@ViewBag.totalprice" />
+                <span asp-validation-for="TotalPrice" class="text-danger"></span>
+            </div>
+            <div hidden class="form-group">
+                <label asp-for="OrderStatus" class="control-label"></label>
+                <input asp-for="OrderStatus" class="form-control" value="已付款" />
+                <span asp-validation-for="OrderStatus" class="text-danger"></span>
+            </div>
+            <div hidden class="form-group">
+                <label asp-for="ShipVia" class="control-label">運送方式</label>
+                <input asp-for="ShipVia" class="form-control" value="郵寄" />
+                <span asp-validation-for="ShipVia" class="text-danger"></span>
+            </div>
+            <div hidden class="form-group">
+                <label asp-for="OrderDate" class="control-label"></label>
+                <input asp-for="OrderDate" class="form-control" value="@DateTime.Now" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            @*隱藏項目*@
+            <div class="row">
+                <div class="col">
+                    <label asp-for="LastName" class="control-label">姓</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="FirstName" class="control-label">名</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactNumber" class="control-label">收件人電話</label>
+                <input asp-for="ContactNumber" class="form-control" />
+                <span asp-validation-for="ContactNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShipZip" class="control-label">郵遞區號</label>
+                <input asp-for="ShipZip" class="form-control" />
+                <span asp-validation-for="ShipZip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShipAddress" class="control-label">地址</label>
+                <input asp-for="ShipAddress" class="form-control" />
+                <span asp-validation-for="ShipAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShippingFee" class="control-label">運費</label>
+                <input readonly asp-for="ShippingFee" class="form-control" value="60" />
+                <span asp-validation-for="ShippingFee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label">備註</label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <button hidden id="sub" type="submit">送出</button>
+            <div id="payment-button"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var form = document.getElementById('myForm');
+    var btnsubmit = document.getElementById('sub');
+
+    paypal.Buttons({
+        // Set up the transaction
+        createOrder: function (data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: @ViewBag.totalprice,
+                        currency_code: 'USD',
+                        breakdown: {
+                            item_total: { value: @ViewBag.totalprice, currency_code: 'USD' } //訂單金額
+                        }
+                    },
+                    invoice_id: 'muesli_invoice_id',
+                    items: [
+    @{
+        int itemCount = ViewBag.ODvm.Count;
+        for (int i = 0; i < itemCount; i++)
+        {
+            var item = ViewBag.ODvm[i];
+            if (i > 0)
+            {
+                @:,
+            }
+            @:{ name: '@Html.Raw(item.ProductName)', unit_amount: { value: @item.UnitPrice, currency_code: 'USD' }, quantity: @item.Qty }
+        }
+    }
+                            ]
+                }]
+            });
+        },
+
+        onApprove: function (data, actions) {
+            $('#sub').click();
+            return actions.order.capture().then(function (orderData) {
+                console.log('Capture result', orderData,
+                    JSON.stringify(orderData, null, 2));                
+            });
+        }
+    }).render('#payment-button');
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

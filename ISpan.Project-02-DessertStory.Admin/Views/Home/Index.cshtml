@@ -1,0 +1,54 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<ISpan.Project_02_DessertStory.Admin.Models.EF.Post>
+@{
+    ViewData["Title"] = "List";
+}
+<link rel="stylesheet" href="~/css/Post.css" asp-append-version="true" />
+<div style="display:flex; justify-content:space-between; align-items:center;">
+    <div style="margin-left:50px">
+        <p>
+            @using (Html.BeginForm())
+            {
+                @:文章查詢 @Html.TextBox("txtKeyword")<input type="submit" value="查詢" />
+            }
+        </p>
+    </div>
+</div>
+<div style="margin-left:50px">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>標題</th>
+                <th>內容</th>
+                <th>發布時間</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="truncate">
+                            @post.Title
+                        </div>
+                    </td>
+                    <td>
+                        <div class="truncate">
+                            @Html.Raw(post.TContent.Replace("<p>", "<span>").Replace("</p>", "</span>"))
+
+                        </div>
+                    </td> <!-- 使用 Html.Raw 渲染带有 <br> 标签的文本 -->
+                    <td>@post.CreatedAt</td>
+                    <td>@Html.ActionLink("刪除","DeletePost","Home",new{id=post.PostId},new{onclick="return confirm('確定要刪除嗎')" ,style="color:#FFB5B5"})</td>
+                    <td><a href="@Url.Action("Detail","Home",new {id=post.PostId})" style="color:#FFB5B5">檢視內容</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        @Html.PagedListPager(Model,page => Url.Action("Index",new { page,txtKeyword=ViewBag.search }))
+    </div>
+</div>
+

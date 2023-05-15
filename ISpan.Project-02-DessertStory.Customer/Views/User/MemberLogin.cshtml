@@ -1,0 +1,72 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.ViewModels.Shopping.MemberLoginVM
+@{
+    ViewData["Title"] = "登入";
+    Layout = "~/Views/Shared/_MemberLoginLayout.cshtml";
+
+}
+
+
+<!-- Content -->
+<div class="card">
+  <div class="authentication-inner row m-0">
+
+    <!-- Login -->
+    <div class="d-flex col-12 align-items-center authentication-bg p-sm-5 p-4">
+      <div class="w-px-400 mx-auto pb-5">
+        <!-- Logo -->
+        <div class="app-brand mb-5">
+          <a href="/Home/Index" class="app-brand-link gap-3 ms-3">
+            <span class="app-brand-logo demo">
+                <img class="mb-2 me-2 bg-transparent" src="~/images/StoreLogo.png" width="58" />
+            </span>
+            <span class="app-brand-text demo text-body fw-bolder text-primary" style="font-size: 2.8em; /*font-family: 'JetBrains Mono'*/">
+                甜點<span class="text-secondary">物語</span>
+            </span>
+          </a>
+        </div>
+        <!-- /Logo -->
+
+        @{
+            if (ViewBag.JustRegistered != null)
+            {
+                <h5 class="bg-info text-white fw-bold rounded p-2">註冊成功！請用剛剛註冊的帳號登入</h5>
+            }
+        }
+
+        <form id="formAuthentication" class="mb-3" asp-controller="User" asp-action="MemberLogin" method="POST" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          <div class="form-group mb-3">
+            <label for="email" class="form-label">帳號</label>
+            <input asp-for="txtAccount" class="form-control" id="email" name="txtAccount" autofocus autocomplete="off" placeholder="帳號" value="pattril0">
+            <span asp-validation-for="txtAccount" class="text-primary" ></span>
+          </div>
+          <div class="mb-3 form-password-toggle">
+            <div class="d-flex justify-content-between">
+              <label class="form-label" for="password">密碼</label>
+              <a href="auth-forgot-password-cover.html" class="text-primary">
+                <small style="font-size: 0.9em">忘記密碼</small>
+              </a>
+            </div>
+            <div class="input-group input-group-merge">
+              <input asp-for="txtPassword" type="password" id="password" class="form-control" name="txtPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" value="76cxD75g"/>
+              <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            </div>
+            <span asp-validation-for="txtPassword" class="text-primary" ></span>
+          </div>
+          <br />
+          <input type="submit" class="btn btn-primary d-grid w-100" value="會員登入"/>
+        </form>
+
+        <p class="text-center">
+          <span>還不是會員嗎?</span>
+          <a href="@Url.Action("Register")" class="text-primary">
+            <span>註冊成為會員</span>
+          </a>
+        </p>
+        </div>
+      </div>
+    </div>
+    <!-- /Login -->
+  </div>
+</div>
+<!-- / Content -->

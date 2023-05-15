@@ -1,0 +1,32 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.Models.EF.Member
+@{
+    ViewData["Title"] = "會員中心";
+    Layout = "~/Views/Shared/_MemberCenterLayout.cshtml";
+}
+
+@section Styles{
+    <style>
+        .btn {
+            border-radius: 5px;
+        }
+
+        .btn:focus, .btn:active, .btn:active:focus, .btn.active:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
+}
+
+<h2 class="d-inline-block">嗨🙂 @Model.LastName@Model.FirstName</h2>
+
+<br />
+
+<a asp-action="MemberLogout" asp-controller="User" 
+>
+    <h4 class="btn btn-primary my-3">登出</h4><br />
+</a>
+
+@*
+@Html.ActionLink("登出","MemberLogout", "User", null, new { @class = "btn btn-primary" })<br />
+*@
+

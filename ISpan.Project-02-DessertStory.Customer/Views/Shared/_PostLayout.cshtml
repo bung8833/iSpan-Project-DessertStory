@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html lang="zh-hant">
+    
+<head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Sneat StyleSheets -->
+    <link href="~/MemberLayout/assets/vendor/css/theme-default.css" rel="stylesheet"/>
+    <link href="~/MemberLayout/assets/vendor/css/core.css" rel="stylesheet"/>
+
+
+    
+    
+
+    <!-- Favicon -->
+    <link href="~/HomeLayout/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    @*<link href="~/HomeLayout/lib/animate/animate.min.css" rel="stylesheet">*@
+    @*<link href="~/HomeLayout/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">*@
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/HomeLayout/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/HomeLayout/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar Start -->
+    <div class="container-fluid fixed-top px-0 wow fadeIn" data-wow-delay="0.1s">
+        <nav class="navbar navbar-expand-lg navbar-light pt-lg-5 pb-lg-1 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
+            <a href="~/Home/Index" class="navbar-brand ms-4 ms-lg-0">
+                <img class="mb-2 me-2 bg-transparent" src="~/images/StoreLogo.png" width="38" />
+                <span style="display:inline-block;">
+                    <h2 class="fw-bold text-primary m-0">甜點<span class="text-secondary">物語</span></h2>
+                </span>
+            </a>
+            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto p-4 p-lg-0">
+                    <a href="~/Home/Index" class="nav-item nav-link">關於我們</a>
+                    <a href="~/Products/Index" class="nav-item nav-link active">產品</a>
+                    <a href="~/Sellers/Index" class="nav-item nav-link active">商家</a>
+                    <a href="~/Home/Index" class="nav-item nav-link active">食譜</a>
+                    <a href="~/Post/List" class="nav-item nav-link active">留言板</a>
+                    <a href="~/Home/Index" class="nav-item nav-link active">客服中心</a>
+                    <a href="~/SellerHome/Login" class="nav-item nav-link active" target="_blank">賣家中心</a>
+                </div>
+                <div class="d-none d-lg-flex ms-2">
+                    <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
+                        <small class="fa fa-search text-body"></small>
+                    </a>
+                    <a class="btn-sm-square bg-white rounded-circle ms-3" asp-action="Index" asp-controller="Member">
+                        <small class="fa fa-user text-body"></small>
+                    </a>
+                    <a class="btn-sm-square bg-white rounded-circle ms-3" asp-action="Index" asp-controller="Cart">
+                        <small class="fa fa-shopping-bag text-body"></small>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <h1 class="display-3 mb-3 animated slideInDown">留言板</h1>
+ 
+        </div>
+    </div>
+    <!-- Page Header End -->
+    
+
+    <!-- Page Content Start -->
+                @RenderBody()
+    <!-- Page Content End -->
+    
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark footer px-5 pt-3 wow fadeIn" data-wow-delay="0.1s">
+        <div class="row g-5">
+            <div class="col-lg-4 col-md-6">
+                <h2 class="fw-bold text-primary mb-2">甜點<span class="text-secondary">物語</span></h2>
+            </div>
+        </div>
+        <div class="row g-5">
+            <div class="col-lg-4 col-md-6 me-5">
+                <p>Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita</p>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <a class="btn btn-link" href="">About Us</a>
+                <a class="btn btn-link" href="">Contact Us</a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <a class="btn btn-link" href="">Our Services</a>
+                <a class="btn btn-link" href="">Support</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                @*&copy; <a href="#">Your Site Name</a>, All Right Reserved.*@
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="chat-popup" style="z-index:999">
+        <div class="chat-header">
+            <h4><i class="fa-brands fa-whatsapp fa-beat" style="margin-right:5px"></i>客服小幫手</h4>
+            <button type="button">&times;</button>
+        </div>
+        <div id="chatContent" class="chat-content">
+            <div class="chat-questions">
+                <table>
+                    <tr>
+                        <td><button class="question-btn">註冊帳號</button></td>
+                        <td><button class="question-btn">如何購買？</button></td>
+                        <td><button class="question-btn">訂單查詢</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="question-btn">配合警政署反詐騙宣導!</button></td>
+                        <td><button class="question-btn">商品有問題該怎麼檢舉呢?</button></td>
+                        <td><button class="question-btn">有哪些配送方式？</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="question-btn">收到的商品有缺少或損壞怎麼辦？</button></td>
+                        <td><button class="question-btn">請問可以冷藏或冷凍嗎？</button></td>
+                        <td><button class="question-btn">可以幫我分裝嗎？</button></td>
+                    </tr>
+                </table>
+                <div id="messageEnd"></div>
+            </div>
+
+            <ul id="chatMessages"></ul>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="請輸入消息..." id="chatMessageInput">
+            <button type="button" id="sendChatMessageBtn">發送</button>
+        </div>
+    </div>
+
+    <button class="open-chat-btn"><i class="fa-brands fa-whatsapp fa-beat" style="margin-right:5px"></i>客服小幫手</button>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top mb-4"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/HomeLayout/lib/wow/wow.min.js"></script>
+    <script src="~/HomeLayout/lib/easing/easing.min.js"></script>
+    <script src="~/HomeLayout/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/HomeLayout/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/chat.js"></script>
+    <!-- Sneat Script -->
+    @*<script src="~/MemberLayout/assets/vendor/js/bootstrap.js"></script>*@
+    <script src="~/MemberLayout/assets/vendor/js/menu.js"></script>
+    <script src="~/MemberLayout/assets/vendor/js/helpers.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="~/HomeLayout/js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            // 打開和關閉聊天窗口
+            $(".open-chat-btn").click(function () {
+                $(".chat-popup").css("display", "block");
+                $(".open-chat-btn").css("display", "none");
+            });
+
+            $(".chat-header button").click(function () {
+                $(".chat-popup").css("display", "none");
+                $(".open-chat-btn").css("display", "block");
+            });
+
+            // 發送消息
+            $("#sendChatMessageBtn").click(function () {
+                var message = $("#chatMessageInput").val();
+                if (message.trim() !== "") {
+                    // 在這裡添加處理消息的代碼，例如使用 SignalR 發送消息
+                    // 將消息添加到聊天內容中
+                    $("#chatMessages").append("<li><strong>我:</strong> " + message + "</li>");
+                    $("#chatMessageInput").val("");
+                    // 根據消息回答固定的答案
+                    var answer = getAnswer(message);
+                    $("#chatMessages").append("<li><strong>客服:</strong> " + answer + "</li>");
+                    //chat - content.scrollTop = chat - content.scrollHeight;
+                }
+            });
+            function scrollToBottom() {
+                var chatContent = document.getElementById("chatContent");
+                chatContent.scrollTop = chatContent.scrollHeight;
+            }
+
+            function getAnswer(question) {
+                // 在這裡根據提供的問題返回固定答案的代碼。
+                // 添加更多問題和答案
+                var answers = {
+                    "註冊帳號": "請至官網首頁的註冊帳號進行註冊喔",
+                    "如何購買？": "將喜歡的甜點加到購物車後，在購物車頁選擇您想要的到貨日期，填寫結帳資料，完成付款後即可。訂購成功會寄發 email 和簡訊通知您",
+                    "訂單查詢": "請至會員中心左側查詢您的訂單",
+                    "配合警政署反詐騙宣導!": "⛔詐騙集團無所不在: 近來有不肖業者偽冒甜點物語客服，蓄意詐騙錢財、竊取隱私資料。 ● 五不①不理假客服連結 ②不掃不明QR code ③不加Line客服帳號 ④不提前[完成訂單] ⑤不轉帳至非官方虛擬帳號 ● 收到任何要求先匯款才解鎖的訊息，請直接透過甜點物語官網聯繫㊣客服查證哦！ ● 如您收到商品有問題，請申請甜點物語退貨退款。",
+                    "商品有問題該怎麼檢舉呢?": "請使用商品頁面的檢舉按鈕進行檢舉",
+                    "有哪些配送方式？": "分別有：低溫宅配、快遞、自取。每個品項可支援的方式有所不同，請詳見商品頁面說明。",
+                    "收到的商品有缺少或損壞怎麼辦？": "若收到商品嚴重破損或缺品，請於收到 2 小時內拍照，提供到 FB 粉絲團、或 LINE、或來信客服信箱 和我們反應，以利評估後續處理方式。",
+                    "請問可以冷藏或冷凍嗎？": "每個品項不太一樣，每個商品頁面下方有詳細保存與食用說明，隨箱附上的出貨單上也有標示。",
+                    "可以幫我分裝嗎？": "依您訂購的品項單位，會有各自獨立包裝。如您訂的是單顆則有單顆包裝，如您訂的是盒裝則盒裝出貨給您。基於安全衛生，並維持店家原本的商品出貨狀態，無法幫您多做加工和分裝。"
+                };
+
+                return answers[question] || "對不起，我無法回答您的問題。";
+            }
+            // 為問題按鈕添加點擊事件處理程序
+            $(".question-btn").click(function () {
+                var question = $(this).text();
+                // 在這裡添加處理問題的代碼，例如使用 SignalR 發送消息
+                // 將問題添加到聊天內容中
+                $("#chatMessages").append("<li><strong>我:</strong> " + question + "</li>");
+                scrollToBottom();
+                // 根據問題回答固定的答案
+                var answer = getAnswer(question);
+                $("#chatMessages").append("<li><strong>客服:</strong> " + answer + "</li>");
+                scrollToBottom();
+            });
+        
+        });
+    </script>
+    <script src="https://kit.fontawesome.com/ae7e98a84e.js" crossorigin="anonymous"></script>
+    <script>
+        const menu5 = document.querySelector('#menu-5');
+        if (menu5) {
+            new Menu(menu5, {
+                animate: false
+            });
+        }
+    </script>
+</body>
+@await RenderSectionAsync("Scripts", required: false)
+</html>

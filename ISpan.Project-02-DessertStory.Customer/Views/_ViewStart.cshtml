@@ -1,0 +1,35 @@
+﻿@{
+    //Layout = "_Layout";
+
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
+
+    switch (controllerName)
+    {
+        case "Member":
+            Layout = "~/Views/Shared/_MemberCenterLayout.cshtml";
+            break;
+        case "SellerHome":
+            Layout = "~/Views/Shared/_SellerLayout.cshtml";
+            break;
+        case "SellerSetting":
+            Layout = "~/Views/Shared/_SellerLayout.cshtml";
+            break;
+        case "StoreSetting":
+            Layout = "~/Views/Shared/_SellerLayout.cshtml";
+            break;
+        case "SellerProducts":
+            Layout = "~/Views/Shared/_SellerLayout.cshtml";
+            break;
+        case "SellerOrder":
+            Layout = "~/Views/Shared/_SellerLayout.cshtml";
+            break;
+        
+        case "Post":
+            Layout = "~/Views/Shared/_PostLayout.cshtml";
+            break;
+        default:
+            //Admin layout
+            Layout = "~/Views/Shared/_Layout.cshtml";
+            break;
+    }
+}

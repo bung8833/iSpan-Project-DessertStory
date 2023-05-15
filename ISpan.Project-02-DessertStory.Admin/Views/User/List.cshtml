@@ -1,0 +1,236 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model IEnumerable<ISpan.Project_02_DessertStory.Admin.Models.IUser>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+
+<h1 style="color:white">會員</h1>
+<form onsubmit="return submitSearch();">
+    <label style="color:white">表單:</label>
+    <select id="usercategory" name="usercategory" onchange="changePage()">
+        <option value="Member">Member</option>
+        <option value="Seller">Seller</option>
+    </select>
+    <p>
+        @using (Html.BeginForm())
+        {
+            <label style="color:white">關鍵字:</label> @Html.TextBox("Keyword") 
+            <button type="button" onclick="searchclear()"><i class="fas fa-xmark"></i></button>
+            <input type="submit" value="查詢" />
+            
+        }
+    </p>
+    @if (ViewBag.UserCategory == "Member" || string.IsNullOrEmpty(ViewBag.UserCategory))
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>會員帳號</th>
+                    <th>姓氏</th>
+                    <th>名字</th>
+                    <th>停權狀態</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Account)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            <input type="checkbox" id="@item.Id" onclick="MemberCheckBoxChange(this)" @((bool)item.SuspensionStatus ? "checked" : "")>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    else if (ViewBag.UserCategory == "Seller")
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>會員帳號</th>
+                    <th>姓氏</th>
+                    <th>名字</th>
+                    <th>停權狀態</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Account)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            <input type="checkbox" id="@item.Id" onclick="SellerCheckBoxChange(this)" @((bool)item.SuspensionStatus ? "checked" : "")>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    <div style="background-color:yellow">
+        @Html.PagedListPager((IPagedList)Model, m => Url.Action("List", new { page= m,usercategory = ViewBag.UserCategory,Keyword=ViewBag.seachstring}))
+    </div>
+</form>
+<script>
+    function MemberCheckBoxChange(element) {
+        (element.checked == true) ? memberSuspendAccount(element) : memberUnsuspendAccount(element);
+    }
+
+    function memberSuspendAccount(element) {
+        var stopAcc = prompt("請輸入BLOCK以確認停權:");
+        let recordId = element.getAttribute('id');
+        let newStatus = element.checked;
+
+        if (stopAcc && stopAcc.toUpperCase() === "BLOCK") {
+            updateMemberStatus(recordId, newStatus);
+        } else {
+            alert("未輸入BLOCK，取消刪除操作");
+            element.checked = !element.checked;
+        }
+    }
+
+    function memberUnsuspendAccount(element) {
+        var unStopAcc = prompt("請輸入UNBLOCK以確認停權:");
+        let recordId = element.getAttribute('id');
+        let newStatus = element.checked;
+
+        if (unStopAcc && unStopAcc.toUpperCase() === "UNBLOCK") {
+            updateMemberStatus(recordId, newStatus);
+        } else {
+            alert("未輸入UNBLOCK，取消刪除操作");
+            element.checked = !element.checked;
+        }
+    }
+
+    function SellerCheckBoxChange(element) {
+        (element.checked == true) ? sellerSuspendAccount(element) : sellerUnsuspendAccount(element);
+    }
+
+    function sellerSuspendAccount(element) {
+        var stopAcc = prompt("請輸入BLOCK以確認停權:");
+        let recordId = element.getAttribute('id');
+        let newStatus = element.checked;
+
+        if (stopAcc && stopAcc.toUpperCase() === "BLOCK") {
+            updateSellerStatus(recordId, newStatus);
+        } else {
+            alert("未輸入BLOCK，取消刪除操作");
+            element.checked = !element.checked;
+        }
+    }
+
+    function sellerUnsuspendAccount(element) {
+        var unStopAcc = prompt("請輸入UNBLOCK以確認停權:");
+        let recordId = element.getAttribute('id');
+        let newStatus = element.checked;
+
+        if (unStopAcc && unStopAcc.toUpperCase() === "UNBLOCK") {
+            updateSellerStatus(recordId, newStatus);
+        } else {
+            alert("未輸入UNBLOCK，取消刪除操作");
+            element.checked = !element.checked;
+        }
+    }
+
+    function updateSellerStatus(recordId, newStatus) {
+        $.ajax({
+            url: `/User/Sellersus?id=${recordId}&status=${newStatus}`,
+            type: "GET",
+            success: function (response) {
+                console.log("Seller status updated successfully.");
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log("Error updating seller status:", textStatus, errorThrown);
+            }
+        });
+    }
+
+    function updateMemberStatus(recordId, newStatus) {
+        $.ajax({
+            url: `/User/Membersus?id=${recordId}&status=${newStatus}`,
+            type: "GET",
+            success: function (response) {
+                console.log("Member status updated successfully.");
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log("Error updating member status:", textStatus, errorThrown);
+            }
+        });
+    }
+
+    function submitSearch() {
+        var usercategory = document.getElementById("usercategory").value;
+        var keyword = document.getElementById("Keyword").value;
+        var url = `/User/List?usercategory=${usercategory}&Keyword=${keyword}`;
+        window.location.href = url;
+        return false;
+    }
+
+    function changePage() {
+        var selectBox = document.getElementById("usercategory");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        var keyword = getParameterByName('Keyword');
+        if (keyword == null) {
+            keyword = "";
+        }
+        var newUrl = `/Home/Index`;
+        if (selectedValue == "Member") {
+            newUrl = `/User/List?page=1&usercategory=Member&Keyword=${encodeURIComponent(keyword)}`;
+        }
+        else if (selectedValue == "Seller") {
+            newUrl = `/User/List?page=1&usercategory=Seller&Keyword=${encodeURIComponent(keyword)}`;
+        }
+        window.location.href = newUrl;
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    function updateSelectValueFromUrl() {
+        var userCategory = getParameterByName('usercategory');
+        if (userCategory) {
+            var selectBox = document.getElementById("usercategory");
+            selectBox.value = userCategory;
+        }
+    }
+
+    function searchclear(){
+        document.getElementById('Keyword').value = "";
+        submitSearch();
+    }
+
+    window.onload = function () {
+        updateSelectValueFromUrl();
+    };
+</script>

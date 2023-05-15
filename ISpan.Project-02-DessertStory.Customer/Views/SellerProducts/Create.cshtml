@@ -1,0 +1,349 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.ViewModels.Sellers.SellerProductsCreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>新增商品</h1>
+
+<h6 class="--bs-dark-text-emphasis">新增您的商品資訊</h6>
+
+<hr class="my-3" />
+
+
+<form asp-action="CreateSellerProducts" id="FormStoreCreate" enctype="multipart/form-data">
+    <input type="hidden" name="SellerId" value="@Model.SellerId" />
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">商品名稱</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="ProductName"
+                   name="ProductName"
+                   class="form-control"
+                   value="@Model.ProductName" />
+        </div>
+    </div>
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">類別</label>
+        <div class="input-group input-group-merge">
+            <select id="CategoryId" name="CategoryId" class="form-control">
+                @foreach (var category in @Model.Category)
+                {
+                    <option value="@category.Id" selected=@(category.Name == @Model.CategoryName)>@category.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="ProductPucture">圖片</label>
+        <div class="card-body">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                @{
+                    string photoname = string.Empty;
+                    
+                    if (!String.IsNullOrEmpty(Model.PictureCreate1))
+                    {
+                        photoname = @Model.PictureCreate1;
+                    }
+                    else
+                    {
+                        photoname = "defaultproduct.jpg";
+                    }
+                }
+                <img src="~/images/products/@photoname" width="180" height="auto"
+                     alt="person-icon"
+                     class="d-block rounded"
+                     id="uploadedAvatarCreate1" />
+
+                <div class="mb-3 input-group">
+                    <input type="file" class="form-control" id="inputGroupFileCreate1" name="photoCreate1" />
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                @{
+                    string photoname2 = string.Empty;
+                    if (!String.IsNullOrEmpty(Model.PictureCreate2))
+                    {
+                        photoname2 = @Model.PictureCreate2;
+                    }
+                    else
+                    {
+                        photoname2 = "defaultproduct.jpg";
+                    }
+                }
+                <img src="~/images/products/@photoname2" width="180" height="auto"
+                     alt="person-icon"
+                     class="d-block rounded"
+                     id="uploadedAvatarCreate2" />
+
+                <div class="mb-3 input-group">
+                    <input type="file" class="form-control" id="inputGroupFileCreate2" name="photoCreate2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                @{
+                    string photoname3 = string.Empty;
+                    if (!String.IsNullOrEmpty(Model.PictureCreate3))
+                    {
+                        photoname3 = @Model.PictureCreate3;
+                    }
+                    else
+                    {
+                        photoname3 = "defaultproduct.jpg";
+                    }
+                }
+                <img src="~/images/products/@photoname3" width="180" height="auto"
+                     alt="person-icon"
+                     class="d-block rounded"
+                     id="uploadedAvatarCreate3" />
+
+                <div class="mb-3 input-group">
+                    <input type="file" class="form-control" id="inputGroupFileCreate3" name="photoCreate3" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="mb-3 col-md-8">
+        <label class="form-label-lg" for="Description">商品描述</label>
+        <div class="input-group input-group-merge">
+            <textarea type="text"
+                      id="myTextarea"
+                      name="Description"
+                      class="form-control"
+                      maxlength="500"
+                      rows="10"
+                      cols="30">@Model.Description</textarea>
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">尺寸</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="ProductSize"
+                   name="ProductSize"
+                   class="form-control"
+                   value="@Model.ProductSize" />
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">價格</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="UnitPrice"
+                   name="UnitPrice"
+                   class="form-control"
+                   value="@Model.UnitPrice" />
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">單位</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="ProductUnit"
+                   name="ProductUnit"
+                   class="form-control"
+                   value="@Model.ProductUnit" />
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">庫存</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="UnitsInStock"
+                   name="UnitsInStock"
+                   class="form-control"
+                   value="@Model.UnitsInStock" />
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">商品狀態</label>
+        <div class="input-group input-group-merge">
+            @*            <input type="text"
+            id="ProductStatus"
+            name="ProductStatus"
+            class="form-control"
+            value="@Model.ProductStatus" />*@
+            @if (Model.ProductStatus == true)
+            {
+                <label>@Html.RadioButtonFor(x => x.ProductStatus, true,true) 上架</label>
+                <label>@Html.RadioButtonFor(x => x.ProductStatus, false) 下架</label>
+            }
+            else
+            {
+                <label class="me-2">@Html.RadioButtonFor(x => x.ProductStatus, true) 上架</label>
+                <label>@Html.RadioButtonFor(x => x.ProductStatus, false, true) 下架</label>
+            }
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button id="saveBtn" type="submit" class="btn btn-primary me-2">新增</button>
+        <button id="cancelBtn" type="reset" class="btn btn-outline-secondary me-2">取消</button>
+        <button type="button" class="btn btn-outline-dark" id="fillDemoDataBtn">Demo</button>
+    </div>
+</form>
+
+<div>
+   
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+        //預覽上傳照片(時機：選檔變更事件)
+        $("#inputGroupFileCreate1").change(function () {
+            $("#uploadedAvatarCreate1").attr({ src: '' }); //先清除舊圖
+            previewImg1(this.files); //再預覽新圖
+        });
+        function previewImg1(files) {
+            if (files.length == 0)
+                return;
+            var file = files[0];
+            var fr = new FileReader();
+            //註冊：選檔被讀取完成後之事件處理器
+            fr.onload =
+                function () {
+                    $("#uploadedAvatarCreate1").attr({ src: fr.result });
+                    /*  fr.result: The file's contents. 內容如下:
+                    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA ...
+                    */
+                };
+            fr.readAsDataURL(file);
+        }
+
+        //預覽上傳照片(時機：選檔變更事件)
+        $("#inputGroupFileCreate2").change(function () {
+            $("#uploadedAvatarCreate2").attr({ src: '' }); //先清除舊圖
+            previewImg2(this.files); //再預覽新圖
+        });
+        function previewImg2(files) {
+            if (files.length == 0)
+                return;
+            var file = files[0];
+            var fr = new FileReader();
+            //註冊：選檔被讀取完成後之事件處理器
+            fr.onload =
+                function () {
+                    $("#uploadedAvatarCreate2").attr({ src: fr.result });
+                    /*  fr.result: The file's contents. 內容如下:
+                    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA ...
+                    */
+                };
+            fr.readAsDataURL(file);
+        }
+
+        //預覽上傳照片(時機：選檔變更事件)
+        $("#inputGroupFileCreate3").change(function () {
+            $("#uploadedAvatarCreate3").attr({ src: '' }); //先清除舊圖
+            previewImg3(this.files); //再預覽新圖
+        });
+        function previewImg3(files) {
+            if (files.length == 0)
+                return;
+            var file = files[0];
+            var fr = new FileReader();
+            //註冊：選檔被讀取完成後之事件處理器
+            fr.onload =
+                function () {
+                    $("#uploadedAvatarCreate3").attr({ src: fr.result });
+                };
+            fr.readAsDataURL(file);
+        }
+        $(document).ready(function () {
+            $("#saveBtn").click(function (e) {
+                e.preventDefault();
+                //跳出確認視窗
+                Swal.fire({
+                    title: '確定要新增嗎?',
+                    //showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: '新增',
+                    cancelButtonText: '取消',
+                    //denyButtonText: `不要儲存`,
+                }).then((result) => {
+                   
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        //提交
+                        Swal.fire('新增成功!', '', 'success').then((result) => { $("#FormStoreCreate").submit(); })
+                    }
+                    
+                })
+            })
+        })
+
+        $(document).ready(function () {
+            $("#cancelBtn").click(function (e) {
+                e.preventDefault();
+                //跳出確認視窗
+                Swal.fire({
+                    title: '確定要取消嗎?',
+                    showCancelButton: true,
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消',
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        Swal.fire('已取消', '', 'info').then((result) => {
+                            //跳轉到指定Action
+                            window.setTimeout(function () {
+                                window.location.href = '@Url.Action("List", "SellerProducts", new { Id = @Model.SellerId })';
+                            }, 1000);
+                        })
+                    }
+                })
+            })
+        })
+
+        //Demo鍵
+        function fillDemoData() {
+            // 取得表單中的各個欄位
+            var productNameField = document.getElementById('ProductName');
+            var categoryIdField = document.getElementById('CategoryId');
+            var productSizeField = document.getElementById('ProductSize');
+            var unitPriceField = document.getElementById('UnitPrice');
+            var productUnitField = document.getElementById('ProductUnit');
+            var unitsInStockField = document.getElementById('UnitsInStock');
+            //var descriptionField = document.getElementById('myTextarea');
+
+            // 設定欄位的值
+            productNameField.value = '【日京屋】草莓塔';
+            categoryIdField.value = '1';
+            productSizeField.value = '6吋';
+            unitPriceField.value = '500';
+            productUnitField.value = '個';
+            unitsInStockField.value = '10';
+            //descriptionField.value = '這是一個範例商品的描述。';
+            tinymce.get('myTextarea').setContent('');
+            tinymce.get('myTextarea').setContent('香氣濃郁、味道甜美的草莓，配上奢華的擺飾，形成一道令人難分難捨的美味佳作！雖不比熱戀中的情人甜膩，但卻是風味長存、讓人印象深刻的一道甜點。塔皮是手工捏製，草莓則是選用台灣大湖草莓，再搭配義大利馬斯卡彭檸檬起司的內餡，讓人吃了停不下來！');
+
+            // 更新類別選擇框的選擇
+            var categoryOptions = categoryIdField.querySelectorAll('option');
+            for (var i = 0; i < categoryOptions.length; i++) {
+                if (categoryOptions[i].value === categoryIdField.value) {
+                    categoryOptions[i].selected = true;
+                } else {
+                    categoryOptions[i].selected = false;
+                }
+            }
+        }
+        document.getElementById("fillDemoDataBtn").addEventListener("click", fillDemoData);
+
+    </script>
+}

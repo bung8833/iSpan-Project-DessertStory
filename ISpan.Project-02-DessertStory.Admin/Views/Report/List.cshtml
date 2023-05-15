@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ISpan.Project_02_DessertStory.Admin.Models.EF.Report>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1 style="color:white">檢舉列表</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                名稱
+            </th>
+            <th>
+                原因
+            </th>
+            <th>
+                種類
+            </th>
+            <th>
+                詳情
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reporter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reportreason)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reportcategory)
+            </td>
+            <td>
+                <a href="@item.Detail" >@item.Detail</a>
+            </td>          
+        </tr>
+}
+    </tbody>
+</table>

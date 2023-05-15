@@ -1,0 +1,126 @@
+﻿@model ISpan.Project_02_DessertStory.Admin.ViewModel.ChartsViewsModel
+
+@{
+    ViewData["Title"] = "List";
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<h1 style="text-align:center;color:white">圖表</h1>
+@{
+    Tool tool = new Tool();
+    List<int> memberagelist = new List<int>();
+    List<int> selleragelist = new List<int>();
+    List<int> allagelist = new List<int>();
+    foreach (var member in Model.Members)
+    {
+        int memage = DateTime.Now.Year - member.BirthDate.Year;
+        memberagelist.Add(memage);
+        allagelist.Add(memage);
+    }
+    foreach (var seller in Model.Sellers)
+    {
+        int sellage = DateTime.Now.Year - seller.BirthDate.Year;
+        selleragelist.Add(sellage);
+        allagelist.Add(sellage);
+    }
+    int[] memberage = tool.GetAgeToArr(memberagelist);
+    string memberstring = string.Join( ",",memberage);
+    int[] sellerage = tool.GetAgeToArr(selleragelist);
+    string sellerstring = string.Join(",", sellerage);
+    int[] allage = tool.GetAgeToArr(allagelist);
+    string allstring = string.Join(",", allage);
+}
+
+<div style="width:500px;background-color:white;float:left">
+    <canvas id="ageDistributionChart"></canvas>
+</div>
+<div style="width:500px;background-color:white;float:left">
+    <canvas id="lineChart"></canvas>
+</div>
+<div style="width:500px;background-color:white;float:left">
+    <canvas id="pieChart"></canvas>
+</div>
+
+<script>
+
+    var ctx = document.getElementById('ageDistributionChart');
+
+    var agebardata = {
+        labels: ['小於18', '18-30', '31-40', '41-50', '51-60', '大於60'],
+        datasets: [{
+            label: 'Member年齡分佈',
+            data: [@memberstring]
+        }, 
+        {
+            label: 'Seller年齡分佈',
+            data: [@sellerstring]
+        },
+        {
+            label: '總年齡分佈',
+            data: [@allstring]
+        }
+        ]
+    };
+
+    var piedata = {
+        labels: ['小於18', '18-30', '31-40', '41-50', '51-60', '大於60'],
+        datasets: [{
+            label: 'Member年齡分佈',
+            data: [@memberstring]
+        }]
+    };
+  
+    // 創建圖表實例
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: agebardata,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: true,
+                title: {
+                    display: true,
+                    text: '年齡分布'
+                }
+            }
+        },
+    });
+
+
+
+    // 創建折線圖
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    const lineChart = new Chart(lineCtx, {
+        type: 'line',
+        data: agebardata,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: false,
+                title: {
+                    display: true,
+                    text: '年齡分布'
+                }
+            }
+        }
+    });
+
+    // 創建圓餅圖
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(pieCtx, {
+        type: 'pie',
+        data: piedata,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: false,
+                title: {
+                    display: true,
+                    text: '年齡分布'
+                }
+            }
+        }
+    });
+
+</script>
+
+

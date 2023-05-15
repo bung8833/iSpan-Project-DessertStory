@@ -1,0 +1,69 @@
+﻿@model ISpan.Project_02_DessertStory.Customer.ViewModels.Sellers.StoreSettingViewModel
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>賣場介紹</h1>
+<h6 class="class--bs-dark-text-emphasis">查看、更新您的賣場檔案</h6>
+
+<hr class="my-3" />
+
+<form asp-action="Edit" id="FormStoreEdit" enctype="multipart/form-data">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="account">賣場名稱</label>
+        <div class="input-group input-group-merge">
+            <input type="text"
+                   id="StoreName"
+                   name="StoreName"
+                   class="form-control"
+                   value="@Model.StoreName" readonly />
+        </div>
+    </div>
+    <div class="mb-3 col-md-6">
+        <label class="form-label-lg" for="ShopLogo">Shop Logo</label>
+        <div class="card-body">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                @{
+                    string photoname = string.Empty;
+                    if (!String.IsNullOrEmpty(Model.Picture))
+                    {
+                        photoname = @Model.Picture;
+                    }
+                    else
+                    {
+                        photoname = "defaultpersonicon.jpg";
+                    }
+                }
+                <img src="~/images/@photoname" width="150" height="130"
+                     alt="person-icon"
+                     class="d-block rounded"
+                     height="100"
+                     width="100"
+                     id="uploadedAvatar" />
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3 col-md-8">
+        <label class="form-label-lg" for="Description">賣場介紹</label>
+        <hr class="my-3" />
+        <div class="input-group input-group-merge text-dark">
+            <textarea readonly type="text"
+                      id="Description"
+                      style="display:none";
+                      name="Description"
+                      class="form-control"
+                      maxlength="500"
+                      rows="10"
+                      cols="30">@Html.Raw(Model.Description)</textarea>
+            @Html.Raw(Model.Description)
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary me-2">編輯</button>
+    </div>
+</form>
+
